@@ -1,0 +1,99 @@
+body {
+  margin: auto;
+  padding: auto;
+  font-size: 16px;
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+}
+
+h2{
+  font-size:16px;
+}
+
+p {
+  font-size: 100%;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+  height: 20px;
+}
+
+ul {
+  padding: 0;
+  border-top: 1px solid #000000;
+  display: table;
+  /* 定義 */
+  table-layout: fixed;
+  width: 100%;
+}
+
+li {
+  text-align: center;
+  list-style-type: none;
+  border: 1px solid #666;
+  background-color: #FFF;
+  display: table-cell;
+  /* 定義 */
+  cursor: pointer;
+}
+
+li:hover {
+  background: #0066CC;
+  color: #fff;
+}
+textarea{
+  margin: 3%;
+  width: 30%;
+  height: 30px;
+  font-size:50%;
+  box-shadow: 3px 3px 3px 3px #555;
+}
+
+#searchBar{
+  display: flex;
+  align-items: center;
+  height: 45px;
+  width: 550px;
+  border-radius: 30px;
+  margin: auto;
+  border: solid 1px #dcdcdc;
+  
+}
+#keyword{
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+#searchMark{
+  margin-left: 10px;
+  margin-right: 5px;
+  color: #9aa0a6;
+}
+
+#searchMic{
+  margin-right: 10px;
+  cursor: pointer;
+  color: #9aa0a6;
+}
+
+#content{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.result{
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  max-width: 200px;
+  text-align: center;
+}
+
+.result img{
+  max-width: 100%;
+  height: auto;
+}
+
