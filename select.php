@@ -79,7 +79,7 @@ if ($status == false) {
             <?= $view ?>
         </div>
     </div>
-
+    
     <script>
         let map;
 

@@ -31,23 +31,21 @@
   <main>
     <div id="myMap" style="width: 100%; height: 700px;"></div>
   </main>
-
-  <form method="post" action="insert.php">
+  
+  <!-- 住所入力欄を追加 -->
+  <form method="post">
     <div class="jumbotron">
       <fieldset>
-        <legend> 依頼登録欄 </legend>
-        <label> 名前： <input type="text" id="uname" name="uname">
-        </label><br>
-        <label> 件名： <input type="text" id="title" name="title">
-        </label><br>
-        <label> 住所： <input type="text" id="address" name="address">
-        </label><br>
-        <label> 相談事項： <textArea id="text" name="text" rows="4" cols="40">
-                </textArea></label>
-        <br>
+        <legend>依頼登録欄</legend>
+        <label>名前：<input type="text" id="uname" name="uname"></label><br>
+        <label>相談事項：<textArea id="text" name="text" rows="4" cols="40"></textArea></label><br>
+        <label>住所（参考）：<input type="text" id="address1" name="address1"></label><br>
+        <label>住所（ピンの位置）：<input type="text" id="address2" name="address2"></label><br>
+        <!-- 緯度・経度のhidden inputを追加 -->
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
-        <input type="submit" value="送信">
+        <!-- 送信ボタンにid="send"を追加 -->
+        <input type="button" id="send" value="送信">
       </fieldset>
     </div>
   </form>
