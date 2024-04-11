@@ -30,7 +30,7 @@
     <div class="container">
       <div id="myMap" style="width: 100%; height: 700px;"></div>
       
-      <form method="post">
+      <form method="post"　action="insert.php">
         <legend>依頼登録欄</legend>
         <div class="form-group">
           <label for="uname">名前</label>
@@ -41,11 +41,11 @@
           <textarea id="text" name="text" rows="4" required></textarea>
         </div>
         <div class="form-group">
-          <label for="address1">住所（参考）</label>
+          <label for="address1">住所（現在地）</label>
           <input type="text" id="address1" name="address1">
         </div>
         <div class="form-group">
-          <label for="address2">住所（ピンの位置）</label>
+          <label for="address2">住所（依頼地点）</label>
           <input type="text" id="address2" name="address2">
         </div>
         <input type="hidden" id="latitude" name="latitude">

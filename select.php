@@ -48,34 +48,24 @@ if ($status == false) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>投稿管理画面</title>
-    <link rel="stylesheet" href="css/range.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/sample.css" rel="stylesheet">
-    <style>
-        div {
-            padding: 10px;
-            font-size: 16px;
-        }
-    </style>
+    <link href="css/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/BmapQuery1.js"></script>
     <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=ApzkQEdYymyvakYqLcMkXK0DnXvvIW2Y66KKY-_I67uUAILst4XPqfQllOteMSCn' async defer></script>
 </head>
 <body id="main">
     <header>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.php">依頼登録</a>
-                    <a class="navbar-brand" href="logout.php">ログアウト</a>
-                </div>
+        <nav class="navbar">
+            <div class="container navbar-container">
+                <a class="navbar-brand" href="index.php">依頼登録</a>
+                <a class="navbar-brand" href="logout.php">ログアウト</a>
             </div>
         </nav>
     </header>
 
-    <div>
-        <div class="container jumbotron">
-            <div id="myMap" style="width: 100%; height: 500px;"></div>
+    <div class="container">
+        <div id="myMap" style="width: 100%; height: 500px;"></div>
+        <div class="table-responsive">
             <?= $view ?>
         </div>
     </div>

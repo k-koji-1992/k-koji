@@ -92,7 +92,8 @@ function GetMap() {
         });
 }
 
-$("#send").on("click", function () {
+$("#send").on("click", function (event) {
+    event.preventDefault(); // フォームのデフォルトの送信動作を防ぐ
     const uname = $("#uname").val() || "匿名希望";
     const msg = {
         uname: uname,
@@ -115,5 +116,10 @@ $("#send").on("click", function () {
                 map.infoboxLayers(options, true);
             });
         });
+        $("#uname").val("");
+        $("#text").val("");
+        $("#address1").val("");
+        $("#address2").val("");
+
     });
 });
