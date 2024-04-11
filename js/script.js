@@ -13,7 +13,7 @@ function GetMap() {
         //現在地の取得
         const lat = data.coords.latitude;
         const lon = data.coords.longitude;
-        console.log(data)
+        console.log(data);
         //現在地を中心にしたマップ
         map.startMap(lat, lon, "load", 15);
         //現在地のピン
@@ -41,30 +41,28 @@ function GetMap() {
             const lon = data.location.longitude; //Get longitude
             clickedLat = lat;
             clickedLon = lon;
-            map.reverseGeocode(data, function (address) {
-                document.querySelector("#address").value = address;
-            });
-            console.log(data); //Get Geocode ObjectData
+            map.reverseGeocode(data.location, function (address) {
+                document.querySelector("#address2").value = address;
+                console.log(data); //Get Geocode ObjectData
 
-            let pin = map.pin(lat, lon, "#0000ff")
-            // ピンを置く
-            map.onPin(pin, "click", function () {
-                map.reverseGeocode({
-                    latitude: lat,
-                    longitude: lon
-                }, function (address) {
-                    // 逆ジオコーディングの結果（住所情報）を取得
-                    let title = document.getElementById('uname').value;
-                    let descript = '<div style="width:300px;">住所：</div>' + address; // 住所情報を使用
+                let pin = map.pin(data.location.latitude, data.location.longitude, "#0000ff");
+                // ピンを置く
+                map.onPin(pin, "click", function () {
+                    map.reverseGeocode(data.location, function (address) {
+                        // 逆ジオコーディングの結果（住所情報）を取得
+                        let title = document.getElementById('uname').value;
+                        let descript = '<div style="width:300px;">住所：' + address + '</div>'; // 住所情報を使用
 
-                    const options = [];
-                    options[0] = map.onInfobox(lat, lon, title, descript)
+                        const options = [];
+                        options[0] = map.onInfobox(data.location.latitude, data.location.longitude, title, descript);
 
-                    map.infoboxLayers(options, true);
+                        map.infoboxLayers(options, true);
+                    });
                 });
             });
         });
     });
+
 
     // AJAXでデータベースからピンの情報を取得
     fetch('get_pins.php')
@@ -80,13 +78,15 @@ function GetMap() {
                 var text = pin.text;
                 var uname = pin.uname;
 
-                var pin = map.pin(lat, lon, "#0000ff");
+                var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
 
-                map.onPin(pin, "click", function () {
-                    var title = uname;
-                    var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + text;
-                    var options = [map.onInfobox(lat, lon, title, descript)];
-                    map.infoboxLayers(options, true);
+                map.onPin(pinEntity, "click", function () {
+                    map.reverseGeocode({ latitude: parseFloat(lat), longitude: parseFloat(lon) }, function (address) {
+                        var title = uname;
+                        var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + text;
+                        var options = [map.onInfobox(parseFloat(lat), parseFloat(lon), title, descript)];
+                        map.infoboxLayers(options, true);
+                    });
                 });
             });
         });
@@ -108,10 +108,12 @@ $("#send").on("click", function () {
         // 新しいピンを地図上に追加
         var pin = map.pin(clickedLat, clickedLon, "#0000ff");
         map.onPin(pin, "click", function () {
-            var title = uname;
-            var descript = '<div style="width:300px;">住所：' + msg.address2 + '</div><br>' + msg.text;
-            var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
-            map.infoboxLayers(options, true);
+            map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
+                var title = uname;
+                var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + msg.text;
+                var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
+                map.infoboxLayers(options, true);
+            });
         });
     });
 });
