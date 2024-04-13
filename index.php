@@ -23,6 +23,12 @@ sschk();
 </head>
 
 <body>
+
+<?php //追加: ログイン成功時のアラート
+if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
+  echo "<script>alert('ログインに成功しました。');</script>";
+}
+?>
 <header>
     <nav class="navbar">
       <div class="container navbar-container">

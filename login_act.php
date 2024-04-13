@@ -42,11 +42,11 @@ if ($val['id'] != "" ) {
     redirect("admin.php");
   } else {
     //Login成功時（リダイレクト）
-    redirect("select.php");
+    redirect("index.php?login_success=1");
   }
 } else {
   //Login失敗時(Logoutを経由：リダイレクト)
-  redirect("login.php");
+  redirect("login.php?login_error=1"); 
 };
 
 

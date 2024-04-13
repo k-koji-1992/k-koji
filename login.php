@@ -17,7 +17,11 @@
 </head>
 
 <body>
-
+<?php //追加: ログイン失敗時のアラート
+if (isset($_GET['login_error']) && $_GET['login_error'] == 1) {
+  echo "<script>alert('ログインに失敗しました。IDとパスワードを確認してください。');</script>";
+}
+?>
 
   <header>
     <nav class="navbar navbar-default">

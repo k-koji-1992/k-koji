@@ -82,8 +82,8 @@ function GetMap() {
 
                 map.onPin(pinEntity, "click", function () {
                     map.reverseGeocode({ latitude: parseFloat(lat), longitude: parseFloat(lon) }, function (address) {
-                        var title = uname;
-                        var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + text;
+                        var title = '依頼者：'+uname;
+                        var descript = '住所：' + address + '<br>相談事項：' + text;
                         var options = [map.onInfobox(parseFloat(lat), parseFloat(lon), title, descript)];
                         map.infoboxLayers(options, true);
                     });
@@ -92,28 +92,28 @@ function GetMap() {
         });
 }
 
-$("#send").on("click", function () {
-    const uname = $("#uname").val() || "匿名希望";
-    const msg = {
-        uname: uname,
-        text: $("#text").val(),
-        address1: $("#address1").val(),
-        address2: $("#address2").val(),
-        latitude: clickedLat,
-        longitude: clickedLon
-    };
+// $("#send").on("click", function () {
+//     const uname = $("#uname").val() || "匿名希望";
+//     const msg = {
+//         uname: uname,
+//         text: $("#text").val(),
+//         address1: $("#address1").val(),
+//         address2: $("#address2").val(),
+//         latitude: clickedLat,
+//         longitude: clickedLon
+//     };
 
-    $.post("insert.php", msg, function (response) {
-        console.log(response);
-        // 新しいピンを地図上に追加
-        var pin = map.pin(clickedLat, clickedLon, "#0000ff");
-        map.onPin(pin, "click", function () {
-            map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
-                var title = uname;
-                var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + msg.text;
-                var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
-                map.infoboxLayers(options, true);
-            });
-        });
-    });
-}); 
+//     $.post("insert.php", msg, function (response) {
+//         console.log(response);
+//         // 新しいピンを地図上に追加
+//         var pin = map.pin(clickedLat, clickedLon, "#0000ff");
+//         map.onPin(pin, "click", function () {
+//             map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
+//                 var title = uname;
+//                 var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + msg.text;
+//                 var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
+//                 map.infoboxLayers(options, true);
+//             });
+//         });
+//     });
+// }); 
