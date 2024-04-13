@@ -24,12 +24,12 @@ sschk();
 
 <body>
 
-<?php //追加: ログイン成功時のアラート
-if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
-  echo "<script>alert('ログインに成功しました。');</script>";
-}
-?>
-<header>
+  <?php //追加: ログイン成功時のアラート
+  if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
+    echo "<script>alert('ログインに成功しました。');</script>";
+  }
+  ?>
+  <header>
     <nav class="navbar">
       <div class="container navbar-container">
         <a class="navbar-brand" href="select.php">投稿一覧</a>
@@ -38,11 +38,11 @@ if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
       </div>
     </nav>
   </header>
-<main>
+  <main>
     <div class="container">
       <div id="myMap" style="width: 100%; height: 700px;"></div>
-      
-      <form method="post" action="insert.php">
+
+      <form method="post" action="insert.php" enctype="multipart/form-data">
         <legend>依頼登録欄</legend>
         <div class="form-group">
           <label for="uname">名前</label>
@@ -64,6 +64,10 @@ if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
           <label for="address2">住所（依頼地点）</label>
           <input type="text" id="address2" name="address2">
         </div>
+        <div class="form-group">
+          <label for="image">画像</label>
+          <input type="file" id="image" name="image">
+        </div>
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
         <input type="submit" value="送信">
@@ -73,4 +77,4 @@ if (isset($_GET['login_success']) && $_GET['login_success'] == 1) {
   <script src="js/script.js"></script>
 </body>
 
-</html> 
+</html>
