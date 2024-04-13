@@ -45,11 +45,13 @@ function redirect($file_name)
     exit();
 }
 
-
-function sschk()
-{
+function sschk() {
     if ($_SESSION["chk_ssid"] != session_id()) {
-        exit("LOGIN ERROR");
+        echo '<div class="login-error">';
+        echo '<p>LOGIN ERROR</p>';
+        echo '<p> <a href="login.php">こちら</a> からログインしてください。</p>';
+        echo '</div>';
+        exit();
     } else {
         session_regenerate_id(true);
         $_SESSION["chk_ssid"] = session_id();

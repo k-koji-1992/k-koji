@@ -1,3 +1,9 @@
+<?php
+session_start();
+include("funcs.php");
+sschk();
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
