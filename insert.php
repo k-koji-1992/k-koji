@@ -13,7 +13,10 @@ if (!empty($_FILES['image']['name'])) {
     $image_path = $upload_dir . uniqid() . '_' . $_FILES['image']['name'];
     move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
 }
-
+// $image_data = NULL;  // 画像データを保存するための変数
+// if (!empty($_FILES['image']['name'])) {
+//     $image_data = file_get_contents($_FILES['image']['tmp_name']);  // 画像データを読み込み
+// }
 include("funcs.php");
 $pdo = db_conn();
 
@@ -29,6 +32,7 @@ $stmt->bindValue(':address2', $address2, PDO::PARAM_STR); // 追加: 'address2' 
 $stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR); // 追加: 'latitude' のバインド
 $stmt->bindValue(':longitude', $longitude, PDO::PARAM_STR); // 追加: 'longitude' のバインド
 $stmt->bindValue(':image_path', $image_path, PDO::PARAM_STR); // 追加: 'image_path' のバインド
+// $stmt->bindParam(':image_data', $image_data, PDO::PARAM_LOB);
 $status = $stmt->execute();
 
 // 4. データ登録処理後

@@ -3,6 +3,55 @@ let map;
 let clickedLat;
 let clickedLon;
 
+// function updatePins() {
+//   // AJAXでデータベースからピンの情報を取得
+//   fetch("get_pins.php")
+//     .then((response) => response.json())
+//     .then((data) => {
+//       var gs_bm_table = data;
+
+//       // 既存のピンを削除
+//       map.removePins();
+
+//       // 地図上にピンを再配置
+//       gs_bm_table.forEach(function (pin) {
+//         var lat = pin.latitude;
+//         var lon = pin.longitude;
+//         var address = pin.address2;
+//         var text = pin.text;
+//         var uname = pin.uname;
+//         var image_path = pin.image_path;
+
+//         var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
+
+//         map.onPin(pinEntity, "click", function () {
+//           map.reverseGeocode(
+//             { latitude: parseFloat(lat), longitude: parseFloat(lon) },
+//             function (address) {
+//               var title = "依頼者：" + uname;
+//               var descript = "住所：" + address + "<br>相談事項：" + text;
+
+//               if (image_path) {
+//                 descript +=
+//                   '<br><img src="' + image_path + '" style="max-width: 100%;">';
+//               }
+
+//               var options = [
+//                 map.onInfobox(
+//                   parseFloat(lat),
+//                   parseFloat(lon),
+//                   title,
+//                   descript
+//                 ),
+//               ];
+//               map.infoboxLayers(options, true);
+//             }
+//           );
+//         });
+//       });
+//     });
+// }
+
 function GetMap() {
   //1. Init
   map = new Bmap("#myMap");
@@ -73,6 +122,12 @@ function GetMap() {
     });
   });
 
+//   // 初回のピン更新
+//   updatePins();
+
+//   // 60秒ごとにピンを更新
+//   setInterval(updatePins, 60000);
+
   // AJAXでデータベースからピンの情報を取得
   fetch("get_pins.php")
     .then((response) => response.json())
@@ -87,6 +142,7 @@ function GetMap() {
         var text = pin.text;
         var uname = pin.uname;
         var image_path = pin.image_path; // 追加: 画像パスを取得
+        console.log(image_path);
 
         var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
 
