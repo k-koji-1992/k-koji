@@ -29,6 +29,8 @@ if (isset($_GET['login_error']) && $_GET['login_error'] == 1) {
         <div class="navbar-header">
           <a class="navbar-brand" href="index.php">依頼登録</a>
           <a class="navbar-brand" href="select.php">依頼一覧</a>
+          <a class="navbar-brand" href="register.php">会員登録</a>
+
         </div>
       </div>
     </nav>

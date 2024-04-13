@@ -1,35 +1,48 @@
 <?php
 //1. POSTデータ取得
+$sei = $_POST['sei'];
+$mei = $_POST['mei'];
+$zip = $_POST['zip'];
+$addr1 = $_POST['addr1'];
+$addr2 = $_POST['addr2'];
 $name = $_POST['name'];
 $lid = $_POST['lid'];
-$lpw= $_POST['lpw'];
+$lpw = $_POST['lpw'];
+$lpw_confirm = $_POST['lpw_confirm'];
+
+// パスワードと確認用パスワードが一致しているかチェック
+if ($lpw !== $lpw_confirm) {
+  echo "パスワードが一致しません。";
+  exit;
+}
 
 
 include("funcs.php");
 $pdo = db_conn();
 
-// //2. DB接続します
-// try {
-//   //Password:MAMP='root',XAMPP=''
-//   $pdo = new PDO('mysql:dbname=k-koji_unit1;charset=utf8;host=mysql57.k-koji.sakura.ne.jp','k-koji','53r4ijgAXtnVUhY_');
-// } catch (PDOException $e) {
-//   exit('DBConnection Error:'.$e->getMessage());
-// }
 
 //３．データ登録SQL作成
-$sql = "INSERT INTO `gs_user_table`(name, lid, lpw) VALUES (:name,:lid,:lpw)";
+// $sql = "INSERT INTO `gs_user_table`(name, lid, lpw) VALUES (:name,:lid,:lpw)";
+$sql = "INSERT INTO `gs_user_table`(sei, mei, zip, addr1, addr2, name, lid, lpw) VALUES (:sei, :mei, :zip, :addr1, :addr2, :name, :lid, :lpw)";
 $stmt = $pdo->prepare($sql); // statement
-$stmt->bindValue(':name', $name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt->bindValue(':name', $name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':sei', $sei, PDO::PARAM_STR);
+$stmt->bindValue(':mei', $mei, PDO::PARAM_STR);
+$stmt->bindValue(':zip', $zip, PDO::PARAM_STR);
+$stmt->bindValue(':addr1', $addr1, PDO::PARAM_STR);
+$stmt->bindValue(':addr2', $addr2, PDO::PARAM_STR);
+$stmt->bindValue(':name', $name, PDO::PARAM_STR);
+$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+$stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);
 $status = $stmt->execute();
 
 //４．データ登録処理後
-if($status==false){
+if ($status == false) {
   //*** function化を使う！*****************
   sql_error($stmt);
-}else{
+} else {
   //*** function化を使う！*****************
   redirect("login.php");
 }
-?>

@@ -50,6 +50,7 @@ function sschk() {
         echo '<div class="login-error">';
         echo '<p>LOGIN ERROR</p>';
         echo '<p> <a href="login.php">こちら</a> からログインしてください。</p>';
+        echo '<p> 会員登録をお済みでない場合は<a href="register.php">こちら</a> から登録してください。</p>';
         echo '</div>';
         exit();
     } else {

@@ -33,7 +33,14 @@ sschk();
     <nav class="navbar">
       <div class="container navbar-container">
         <a class="navbar-brand" href="select.php">投稿一覧</a>
-        <a class="navbar-brand" href="login.php">ログイン</a>
+        <?php
+        // 修正箇所: ログイン中は「ログアウト」を表示し、それ以外は「ログイン」を表示
+        if (isset($_SESSION['chk_ssid'])) {
+          echo '<a class="navbar-brand" href="logout.php">ログアウト</a>';
+        } else {
+          echo '<a class="navbar-brand" href="login.php">ログイン</a>';
+        }
+        ?>
         <a class="navbar-brand" href="register.php">会員登録</a>
       </div>
     </nav>
