@@ -27,7 +27,7 @@ function GetMap() {
 
         map.onGeocode("click", function (clickPoint) {
             map.reverseGeocode(clickPoint.location, function (data) {
-                console.log(clickPoint);
+                console.log(data);
                 document.querySelector("#address2").value = data;
             });
         });
@@ -50,7 +50,7 @@ function GetMap() {
                 map.onPin(pin, "click", function () {
                     map.reverseGeocode(data.location, function (address) {
                         // 逆ジオコーディングの結果（住所情報）を取得
-                        let title = document.getElementById('uname') ? document.getElementById('uname').value : "Anonymous";
+                        let title = document.getElementById('uname').value;
                         let descript = '<div style="width:300px;">住所：' + address + '</div>'; // 住所情報を使用
 
                         const options = [];
@@ -64,8 +64,7 @@ function GetMap() {
     });
 
 
-    // AJAXでデータベースからピンの情報を取得 
-    // fetchで何秒かに一回更新　setinterval
+    // AJAXでデータベースからピンの情報を取得
     fetch('get_pins.php')
         .then(response => response.json())
         .then(data => {
@@ -78,7 +77,6 @@ function GetMap() {
                 var address = pin.address2;
                 var text = pin.text;
                 var uname = pin.uname;
-                var image_path = pin.image_path;
 
                 var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
 
@@ -86,9 +84,6 @@ function GetMap() {
                     map.reverseGeocode({ latitude: parseFloat(lat), longitude: parseFloat(lon) }, function (address) {
                         var title = uname;
                         var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + text;
-                        if (image_path) {
-                            descript += '<br><img src="' + image_path + '" style="max-width:300px;">';
-                        }
                         var options = [map.onInfobox(parseFloat(lat), parseFloat(lon), title, descript)];
                         map.infoboxLayers(options, true);
                     });
@@ -97,36 +92,28 @@ function GetMap() {
         });
 }
 
-$("#postForm").on("submit", function (event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    formData.append("latitude", clickedLat);
-    formData.append("longitude", clickedLon);
+$("#send").on("click", function () {
+    const uname = $("#uname").val() || "匿名希望";
+    const msg = {
+        uname: uname,
+        text: $("#text").val(),
+        address1: $("#address1").val(),
+        address2: $("#address2").val(),
+        latitude: clickedLat,
+        longitude: clickedLon
+    };
 
-    $.ajax({
-        url: "insert.php",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            const res = JSON.parse(response);
-            if (res.status === "success") {
-                // 新しいピンを地図上に追加
-                var pin = map.pin(clickedLat, clickedLon, "#0000ff");
-                map.onPin(pin, "click", function () {
-                    map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
-                        var title = res.uname; // レスポンスからunameを取得
-                        var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + $("#text").val();
-                        var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
-                        map.infoboxLayers(options, true);
-                    });
-                });
-                // フォームをリセット
-                $("#postForm")[0].reset();
-            } else {
-                alert("投稿に失敗しました。");
-            }
-        },
+    $.post("insert.php", msg, function (response) {
+        console.log(response);
+        // 新しいピンを地図上に追加
+        var pin = map.pin(clickedLat, clickedLon, "#0000ff");
+        map.onPin(pin, "click", function () {
+            map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
+                var title = uname;
+                var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + msg.text;
+                var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
+                map.infoboxLayers(options, true);
+            });
+        });
     });
-});
+}); 

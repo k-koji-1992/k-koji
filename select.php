@@ -18,18 +18,15 @@ if ($status == false) {
 
     while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $view .= "<tr>";
-        $view .= "<td>" . $res["user_id"] . "</td>";
+        $view .= "<td>" . $res["id"] . "</td>";
         $view .= "<td>" . $res['uname'] . "</td>";
         $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['address2'] . "</td>";
         $view .= "<td>" . $res['indate'] . "</td>";
         $view .= "<td>";
-        if ($res['image_path']) {
-            $view .= "<img src='" . $res['image_path'] . "' style='max-width:100px;'>";
-        }
         $view .= "</td>";
-        $view .= "<td><a href='detail.php?id=" . h($res["user_id"]) . "' class='btn btn-primary'>更新</a></td>";
-        $view .= "<td><a href='delete.php?id=" . h($res["user_id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
+        $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";
+        $view .= "<td><a href='delete.php?id=" . h($res["id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
         $view .= "</tr>";
 
         // ピンのデータを配列に追加

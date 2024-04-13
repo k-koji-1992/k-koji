@@ -1,10 +1,3 @@
-<?php
-session_start();
-include("funcs.php");
-sschk();
-?>
-
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -24,7 +17,7 @@ sschk();
 </head>
 
 <body>
-  <header>
+<header>
     <nav class="navbar">
       <div class="container navbar-container">
         <a class="navbar-brand" href="select.php">投稿一覧</a>
@@ -33,15 +26,19 @@ sschk();
       </div>
     </nav>
   </header>
-  <main>
+<main>
     <div class="container">
       <div id="myMap" style="width: 100%; height: 700px;"></div>
-
-      <form id="postForm" enctype="multipart/form-data">
+      
+      <form method="post" action="insert.php">
         <legend>依頼登録欄</legend>
         <div class="form-group">
-          <label for="uname">投稿者名</label>
+          <label for="uname">名前</label>
           <input type="text" id="uname" name="uname" required>
+        </div>
+        <div class="form-group">
+          <label for="title">題名</label>
+          <input type="text" id="title" name="title" required>
         </div>
         <div class="form-group">
           <label for="text">相談事項</label>
@@ -55,10 +52,6 @@ sschk();
           <label for="address2">住所（依頼地点）</label>
           <input type="text" id="address2" name="address2">
         </div>
-        <div class="form-group">
-          <label for="image">画像</label>
-          <input type="file" id="image" name="image">
-        </div>
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
         <input type="submit" value="送信">
@@ -68,4 +61,4 @@ sschk();
   <script src="js/script.js"></script>
 </body>
 
-</html>
+</html> 

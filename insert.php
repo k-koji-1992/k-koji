@@ -1,52 +1,33 @@
 <?php
-session_start();
+// 1. POSTデータ取得
+$uname = $_POST['uname']; // 変更: 'title' から 'uname' に変更
+$title = $_POST['title']; // 変更: 'url' から 'text' に変更
+$text = $_POST['text']; // 変更: 'url' から 'text' に変更
+$address1 = $_POST['address1']; // 追加: 'address1' を追加
+$address2 = $_POST['address2']; // 追加: 'address2' を追加
+$latitude = $_POST['latitude']; // 追加: 'latitude' を追加
+$longitude = $_POST['longitude']; // 追加: 'longitude' を追加
+
 include("funcs.php");
+$pdo = db_conn();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pdo = db_conn();
-    $uname = $_SESSION['user_name'];
-    $user_id = $_SESSION['user_id'];
-    $text = $_POST['text'];
-    $address1 = $_POST['address1'];
-    $address2 = $_POST['address2'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
+// 3. データ登録SQL作成
+$sql = "INSERT INTO `gs_bm_table`( uname, title,text, address1, address2, latitude, longitude, indate)
+        VALUES ( :uname, :title,:text, :address1, :address2, :latitude, :longitude, sysdate())";
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':uname', $uname, PDO::PARAM_STR);
+$stmt->bindValue(':title', $title, PDO::PARAM_STR);
+$stmt->bindValue(':text', $text, PDO::PARAM_STR);
+$stmt->bindValue(':address1', $address1, PDO::PARAM_STR); // 追加: 'address1' のバインド
+$stmt->bindValue(':address2', $address2, PDO::PARAM_STR); // 追加: 'address2' のバインド
+$stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR); // 追加: 'latitude' のバインド
+$stmt->bindValue(':longitude', $longitude, PDO::PARAM_STR); // 追加: 'longitude' のバインド
+$status = $stmt->execute();
 
-    // 画像アップロード処理
-    $image_path = null;
-    if (!empty($_FILES['image']['name'])) {
-        $image_path = 'uploads/' . uniqid() . '_' . $_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
-    }
-
-    try {
-        // データ登録SQL作成
-        $sql = "INSERT INTO `gs_bm_table`(user_id, uname, text, address1, address2, latitude, longitude, image_path, indate)
-                VALUES (:user_id, :uname, :text, :address1, :address2, :latitude, :longitude, :image_path, sysdate())";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindValue(':uname', $uname, PDO::PARAM_STR);
-        $stmt->bindValue(':text', $text, PDO::PARAM_STR);
-        $stmt->bindValue(':address1', $address1, PDO::PARAM_STR);
-        $stmt->bindValue(':address2', $address2, PDO::PARAM_STR);
-        $stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR);
-        $stmt->bindValue(':longitude', $longitude, PDO::PARAM_STR);
-        $stmt->bindValue(':image_path', $image_path, PDO::PARAM_STR);
-        $stmt->execute();
-        $response = array("status" => "success", "uname" => $uname);
-    } catch (PDOException $e) {
-        $response = array("status" => "error", "message" => $e->getMessage());
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        return;
-    }
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
+// 4. データ登録処理後
+if ($status == false) {
+    sql_error($stmt);
 } else {
-    $response = array("status" => "error", "message" => "Invalid request method");
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    return;
+    redirect("index.php");
 }
-?>
+?> 

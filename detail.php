@@ -38,7 +38,7 @@ if($status==false) {
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-    <div class="navbar-header"><a class="navbar-brand" href="select.php">ブックマーク一覧</a></div>
+    <div class="navbar-header"><a class="navbar-brand" href="select.php">投稿一覧</a></div>
     </div>
   </nav>
 </header>
@@ -48,10 +48,10 @@ if($status==false) {
 <form method="POST" action="update.php">
   <div class="jumbotron">
    <fieldset>
-    <legend>ブックマーク更新</legend>
-     <label>書籍名：<input type="text" name="title" value="<?=$row["title"]?>"></label><br>
-     <label>書籍URL：<input type="text" name="url" value="<?=$row["url"]?>"></label><br>
-     <label>コメント：<textArea name="comment" rows="4" cols="40"><?=$row["comment"]?></textArea></label><br>
+    <legend>投稿更新</legend>
+     <label>投稿者名：<input type="text" name="uname" value="<?=$row["uname"]?>"></label><br>
+     <label>依頼先住所：<input type="text" name="address1" value="<?=$row["address1"]?>"></label><br>
+     <label>相談事項：<textArea name="text" rows="4" cols="40"><?=$row["text"]?></textArea></label><br>
      <!-- idを隠して送信 -->
      <input type="hidden" name="id" value="<?=$id?>">
      <!-- idを隠して送信 -->
