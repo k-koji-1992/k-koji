@@ -12,22 +12,26 @@ if ($status == false) {
     sql_error($stmt);
 } else {
     $pins_data = array(); // ピンのデータを格納する配列を初期化
-    
+
     $view .= "<table class='table'>";
     $view .= "<tr><th>ID</th><th>名前</th><th>件名</th><th>コメント</th><th>住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
-    
+
     while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $view .= "<tr>";
-        $view .= "<td>" . $res["id"] . "</td>";
+        $view .= "<td>" . $res["user_id"] . "</td>";
         $view .= "<td>" . $res['uname'] . "</td>";
-        $view .= "<td>" . $res['title'] . "</td>";
-        $view .= "<td>" . $res['text'] . "</td>";
+        $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['address2'] . "</td>";
         $view .= "<td>" . $res['indate'] . "</td>";
-        $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";
-        $view .= "<td><a href='delete.php?id=" . h($res["id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
+        $view .= "<td>";
+        if ($res['image_path']) {
+            $view .= "<img src='" . $res['image_path'] . "' style='max-width:100px;'>";
+        }
+        $view .= "</td>";
+        $view .= "<td><a href='detail.php?id=" . h($res["user_id"]) . "' class='btn btn-primary'>更新</a></td>";
+        $view .= "<td><a href='delete.php?id=" . h($res["user_id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
         $view .= "</tr>";
-        
+
         // ピンのデータを配列に追加
         $pins_data[] = array(
             'latitude' => $res['latitude'],
@@ -43,6 +47,7 @@ if ($status == false) {
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,6 +58,7 @@ if ($status == false) {
     <script src="js/BmapQuery1.js"></script>
     <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=ApzkQEdYymyvakYqLcMkXK0DnXvvIW2Y66KKY-_I67uUAILst4XPqfQllOteMSCn' async defer></script>
 </head>
+
 <body id="main">
     <header>
         <nav class="navbar">
@@ -69,7 +75,7 @@ if ($status == false) {
             <?= $view ?>
         </div>
     </div>
-    
+
     <script>
         let map;
 
@@ -98,4 +104,5 @@ if ($status == false) {
         }
     </script>
 </body>
+
 </html>
