@@ -11,7 +11,7 @@ sschk();
   <meta charset="UTF-8">
   <title>すぐやる課支援業務アプリ</title>
   <link href="css/style.css" rel="stylesheet">
-  <link href="css/infobox.css"rel="stylesheet" >
+  <link href="css/infobox.css" rel="stylesheet">
   <style>
     div {
       padding: 10px;
@@ -76,16 +76,26 @@ sschk();
         </div>
         <div class="form-group">
           <label>カテゴリー:</label><br>
-          <input type="radio" id="hachi" name="category" value="ハチの巣駆除" required>
-          <label for="hachi">ハチの巣駆除</label><br>
-          <input type="radio" id="douro" name="category" value="道路補修・整備">
-          <label for="douro">道路補修・整備</label><br>
-          <input type="radio" id="shibou" name="category" value="野生動物の死体撤去">
-          <label for="shibou">野生動物の死体撤去</label><br>
-          <input type="radio" id="trouble" name="category" value="住民トラブル">
-          <label for="trouble">住民トラブル</label><br>
-          <input type="radio" id="other" name="category" value="その他">
-          <label for="other">その他</label><br>
+          <div>
+            <input type="radio" id="hachi" name="category" value="ハチの巣駆除" required>
+            <label for="hachi">ハチの巣駆除</label>
+          </div>
+          <div>
+            <input type="radio" id="douro" name="category" value="道路補修・整備">
+            <label for="douro">道路補修・整備</label>
+          </div>
+          <div>
+            <input type="radio" id="shibou" name="category" value="野生動物の死体撤去">
+            <label for="shibou">野生動物の死体撤去</label>
+          </div>
+          <div>
+            <input type="radio" id="trouble" name="category" value="住民トラブル">
+            <label for="trouble">住民トラブル</label>
+          </div>
+          <div>
+            <input type="radio" id="other" name="category" value="その他">
+            <label for="other">その他</label>
+          </div>
         </div>
         <div class="form-group">
           <label for="address1">住所（現在地）</label>
@@ -107,14 +117,14 @@ sschk();
   </main>
   <script src="js/script.js"></script>
   <script>
-  // 地名検索機能
-  document.getElementById("search").onclick = function() {
-    const searchBox = document.getElementById("searchBox").value;
-    if (searchBox) {
-      map.getSearchBoundary(searchBox, "PopulatedPlace");
-    }
-  };
-</script>
+    // 地名検索機能
+    document.getElementById("search").onclick = function() {
+      const searchBox = document.getElementById("searchBox").value;
+      if (searchBox) {
+        map.getSearchBoundary(searchBox, "PopulatedPlace");
+      }
+    };
+  </script>
 </body>
 
 </html>

@@ -117,22 +117,6 @@ function GetMap() {
           default:
             icon = "#0000ff"; // デフォルトのピンの色を青色に変更
         }
-
-        // var pinEntity = map.pin(parseFloat(lat), parseFloat(lon),icon);
-        // var pinEntity = map.pinIcon(parseFloat(lat), parseFloat(lon),icon, 0.3, 50, 50);
-
-        // 修正: アイコンの場合は透明なピンを設置し、クリックイベントを設定
-        // if (!icon.startsWith("#")) {
-        //   var transparentPin = map.pin(
-        //     parseFloat(lat),
-        //     parseFloat(lon),
-        //     "rgba(0, 0, 0, 0)"
-        //   );
-        //   map.onPin(transparentPin, "click", function () {
-        //     showInfobox(lat, lon, address, uname, text, image_path);
-        //   });
-        // }
-
         // 修正: カテゴリーごとにピンのアイコンを設定
         var pinEntity;
         if (icon.startsWith("#")) {
@@ -146,48 +130,24 @@ function GetMap() {
             parseFloat(lat),
             parseFloat(lon),
             icon,
-            0.3,
-            50,
-            50
+            0.2,
+            28,
+            70
           );
-          map.onPin(pinEntity, "click", function () {
+          var transparentPin = map.pin(
+            parseFloat(lat),
+            parseFloat(lon),
+            "rgba(0, 0, 0, 0)"
+          );
+          // transparentPin.setOptions({
+          //   visible: false,
+          //   enableHoverStyle: false,
+          //   enableClickedStyle: false,
+          // });
+          map.onPin(transparentPin, "click", function () {
             showInfobox(lat, lon, address, uname, text, image_path);
           });
         }
-
-        // map.onPin(pinEntity, "click", function () {
-        //   map.reverseGeocode(
-        //     { latitude: parseFloat(lat), longitude: parseFloat(lon) },
-        //     function (address) {
-        //       var title = "依頼者：" + uname;
-        //       var descript =
-        //         "住所：" +
-        //         address +
-        //         "<br style='font-size:18px'>相談事項：" +
-        //         text;
-
-        //       // 追加: 画像が存在する場合、画像を表示
-        //       if (image_path) {
-        //         descript +=
-        //           '<br><img src="' + image_path + '" style="max-width: 100%;">';
-        //       }
-
-        //       var options = [
-        //         map.onInfobox(
-        //           parseFloat(lat),
-        //           parseFloat(lon),
-        //           title,
-        //           descript
-        //         ),
-        //       ];
-        //       // 修正: インフォボックスの切り替え
-        //       if (currentInfobox) {
-        //         currentInfobox.setOptions({ visible: false });
-        //       }
-        //       currentInfobox = map.infoboxLayers(options, true)[0];
-        //     }
-        //   );
-        // });
       });
 
       function showInfobox(lat, lon, address, uname, text, image_path) {
