@@ -64,6 +64,19 @@ sschk();
           <textarea id="text" name="text" rows="4" required></textarea>
         </div>
         <div class="form-group">
+          <label>カテゴリー:</label><br>
+          <input type="radio" id="hachi" name="category" value="ハチの巣駆除" required>
+          <label for="hachi">ハチの巣駆除</label><br>
+          <input type="radio" id="douro" name="category" value="道路補修・整備">
+          <label for="douro">道路補修・整備</label><br>
+          <input type="radio" id="shibou" name="category" value="野生動物の死体撤去">
+          <label for="shibou">野生動物の死体撤去</label><br>
+          <input type="radio" id="trouble" name="category" value="住民トラブル">
+          <label for="trouble">住民トラブル</label><br>
+          <input type="radio" id="other" name="category" value="その他">
+          <label for="other">その他</label><br>
+        </div>
+        <div class="form-group">
           <label for="address1">住所（現在地）</label>
           <input type="text" id="address1" name="address1">
         </div>

@@ -97,7 +97,7 @@ function GetMap() {
         let pin = map.pin(
           data.location.latitude,
           data.location.longitude,
-          "#0000ff"
+          "#9900ff"
         );
         // ピンを置く
         map.onPin(pin, "click", function () {
@@ -133,7 +133,8 @@ function GetMap() {
     .then((response) => response.json())
     .then((data) => {
       var gs_bm_table = data;
-
+      console.log(data)
+     
       // 地図読み込み時にデータベースからピンの情報を呼び出す。
       gs_bm_table.forEach(function (pin) {
         var lat = pin.latitude;
@@ -142,9 +143,29 @@ function GetMap() {
         var text = pin.text;
         var uname = pin.uname;
         var image_path = pin.image_path; // 追加: 画像パスを取得
-        console.log(image_path);
-
-        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
+        var category = pin.category; // 修正箇所: カテゴリーを取得
+      
+        var icon = "#0000ff";
+        // switch (category) {
+        //   case "ハチの巣駆除":
+        //     icon = "/kadai/html_kikuchi_15/img/hachi.png";
+        //     break;
+        //   case "道路補修・整備":
+        //     icon = "/img/douro.png";
+        //     break;
+        //   case "野生動物の死体撤去":
+        //     icon = "/img/shibou.png";
+        //     break;
+        //   case "住民トラブル":
+        //     icon = "/img/trouble.png";
+        //     break;
+        //   case "その他":
+        //     icon = "/img/other.png";
+        //     break;
+        // }
+        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon),icon);
+        
+        // var pinEntity = map.pinIcon(parseFloat(lat), parseFloat(lon),icon, 0.3, 0, 0);
 
         map.onPin(pinEntity, "click", function () {
           map.reverseGeocode(

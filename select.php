@@ -22,6 +22,7 @@ if ($status == false) {
         $view .= "<td>" . $res['uname'] . "</td>";
         $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
+        $view .= "<td>" . $res['category'] . "</td>"; // 修正箇所: カテゴリーを表示
         $view .= "<td>" . $res['address2'] . "</td>";
         $view .= "<td>" . $res['indate'] . "</td>";
         $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";
@@ -34,7 +35,8 @@ if ($status == false) {
             'longitude' => $res['longitude'],
             'address' => $res['address2'],
             'text' => $res['text'],
-            'uname' => $res['uname']
+            'uname' => $res['uname'],
+            'category' => $res['category']
         );
     }
     $view .= "</table>";
@@ -81,7 +83,6 @@ if ($status == false) {
 
     <script>
         let map;
-
         function GetMap() {
             map = new Bmap("#myMap");
             map.startMap(35.6809591, 139.7673068, "load", 12); // 東京を中心とした地図を表示
@@ -98,9 +99,27 @@ if ($status == false) {
         var text = pin.text;
         var uname = pin.uname;
         var image_path = pin.image_path; // 追加: 画像パスを取得
-        console.log(image_path);
+        var category = pin.category; // 修正箇所: カテゴリーを取得
+        var pinIcon = "#0000ff";
+        // switch (category) {
+        //   case "ハチの巣駆除":
+        //     pinIcon = "images/hachi.png";
+        //     break;
+        //   case "道路補修・整備":
+        //     pinIcon = "images/douro.png";
+        //     break;
+        //   case "野生動物の死体撤去":
+        //     pinIcon = "images/shibou.png";
+        //     break;
+        //   case "住民トラブル":
+        //     pinIcon = "images/trouble.png";
+        //     break;
+        //   case "その他":
+        //     pinIcon = "images/other.png";
+        //     break;
+        // }
 
-        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
+        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), pinIcon);
 
         map.onPin(pinEntity, "click", function () {
           map.reverseGeocode(
