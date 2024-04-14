@@ -188,7 +188,7 @@ function GetMap() {
                   descript
                 ),
               ];
-              map.infoboxLayers(options, true);
+              map.infoboxLayers(options,true);// 直前のインフォボックスを閉じる
             }
           );
         });

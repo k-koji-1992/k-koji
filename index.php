@@ -47,7 +47,17 @@ sschk();
   </header>
   <main>
     <div class="container">
+      <div class="search-container">
+        <input type="text" id="searchBox" placeholder="地名を入力">
+        <button id="search">検索</button>
+      </div>
       <div id="myMap" style="width: 100%; height: 700px;"></div>
+
+      <div class="legend">
+        <p><span class="red-pin">●</span> 現在地</p>
+        <p><span class="purple-pin">●</span> クリックした場所</p>
+        <p><img src="/kadai/html_kikuchi_15/img/hachi.png" alt="ハチ駆除" width="20"> ハチ駆除</p>
+      </div>
 
       <form method="post" action="insert.php" enctype="multipart/form-data">
         <legend>依頼登録欄</legend>
@@ -95,6 +105,15 @@ sschk();
     </div>
   </main>
   <script src="js/script.js"></script>
+  <script>
+  // 地名検索機能
+  document.getElementById("search").onclick = function() {
+    const searchBox = document.getElementById("searchBox").value;
+    if (searchBox) {
+      map.getSearchBoundary(searchBox, "PopulatedPlace");
+    }
+  };
+</script>
 </body>
 
 </html>
