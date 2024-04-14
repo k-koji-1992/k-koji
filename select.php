@@ -23,6 +23,7 @@ if ($status == false) {
         $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['category'] . "</td>"; // 修正箇所: カテゴリーを表示
+        $view .= "<td>" . $res['address1'] . "</td>";
         $view .= "<td>" . $res['address2'] . "</td>";
         $view .= "<td>" . $res['indate'] . "</td>";
         $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";

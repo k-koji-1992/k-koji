@@ -12,12 +12,6 @@ sschk();
   <title>すぐやる課支援業務アプリ</title>
   <link href="css/style.css" rel="stylesheet">
   <link href="css/infobox.css" rel="stylesheet">
-  <style>
-    div {
-      padding: 10px;
-      font-size: 16px;
-    }
-  </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/BmapQuery1.js"></script>
   <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=ApzkQEdYymyvakYqLcMkXK0DnXvvIW2Y66KKY-_I67uUAILst4XPqfQllOteMSCn' async defer></script>
@@ -52,7 +46,7 @@ sschk();
         <input type="text" id="searchBox" placeholder="地名を入力">
         <button id="search">検索</button>
       </div>
-      <div id="myMap" style="width: 100%; height: 700px;"></div>
+      <div id="myMap"></div>
 
       <div class="legend">
         <p><span class="red-pin">●</span> 現在地</p>
