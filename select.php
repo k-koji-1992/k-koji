@@ -14,17 +14,16 @@ if ($status == false) {
     $pins_data = array(); // ピンのデータを格納する配列を初期化
 
     $view .= "<table class='table'>";
-    $view .= "<tr><th>ID</th><th>名前</th><th>件名</th><th>コメント</th><th>住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
+    $view .= "<tr><th>ID</th><th>名前</th><th>件名</th><th>依頼事項</th><th>依頼住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
 
     while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $view .= "<tr>";
         $view .= "<td>" . $res["id"] . "</td>";
         $view .= "<td>" . $res['uname'] . "</td>";
+        $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['address2'] . "</td>";
         $view .= "<td>" . $res['indate'] . "</td>";
-        $view .= "<td>";
-        $view .= "</td>";
         $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";
         $view .= "<td><a href='delete.php?id=" . h($res["id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
         $view .= "</tr>";
@@ -61,7 +60,14 @@ if ($status == false) {
         <nav class="navbar">
             <div class="container navbar-container">
                 <a class="navbar-brand" href="index.php">依頼登録</a>
-                <a class="navbar-brand" href="logout.php">ログアウト</a>
+                <?php
+                // 修正箇所: ログイン中は「ログアウト」を表示し、それ以外は「ログイン」を表示
+                if (isset($_SESSION['chk_ssid'])) {
+                    echo '<a class="navbar-brand" href="logout.php">ログアウト</a>';
+                } else {
+                    echo '<a class="navbar-brand" href="login.php">ログイン</a>';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -79,25 +85,50 @@ if ($status == false) {
         function GetMap() {
             map = new Bmap("#myMap");
             map.startMap(35.6809591, 139.7673068, "load", 12); // 東京を中心とした地図を表示
+            fetch("get_pins.php")
+    .then((response) => response.json())
+    .then((data) => {
+      var gs_bm_table = data;
 
-            var pins_data = <?php echo json_encode($pins_data); ?>; // PHPの配列をJavaScriptの配列に変換
+      // 地図読み込み時にデータベースからピンの情報を呼び出す。
+      gs_bm_table.forEach(function (pin) {
+        var lat = pin.latitude;
+        var lon = pin.longitude;
+        var address = pin.address2;
+        var text = pin.text;
+        var uname = pin.uname;
+        var image_path = pin.image_path; // 追加: 画像パスを取得
+        console.log(image_path);
 
-            pins_data.forEach(function(pin) {
-                var lat = pin.latitude;
-                var lon = pin.longitude;
-                var address = pin.address;
-                var text = pin.text;
-                var uname = pin.uname;
+        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
 
-                var pin = map.pin(lat, lon, "#0000ff");
+        map.onPin(pinEntity, "click", function () {
+          map.reverseGeocode(
+            { latitude: parseFloat(lat), longitude: parseFloat(lon) },
+            function (address) {
+              var title = "依頼者：" + uname;
+              var descript = "住所：" + address + "<br>相談事項：" + text;
 
-                map.onPin(pin, "click", function() {
-                    var title = uname;
-                    var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + text;
-                    var options = [map.onInfobox(lat, lon, title, descript)];
-                    map.infoboxLayers(options, true);
-                });
-            });
+              // 追加: 画像が存在する場合、画像を表示
+              if (image_path) {
+                descript +=
+                  '<br><img src="' + image_path + '" style="max-width: 100%;">';
+              }
+
+              var options = [
+                map.onInfobox(
+                  parseFloat(lat),
+                  parseFloat(lon),
+                  title,
+                  descript
+                ),
+              ];
+              map.infoboxLayers(options, true);
+            }
+          );
+        });
+      });
+    });
         }
     </script>
 </body>

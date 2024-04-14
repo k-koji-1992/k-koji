@@ -28,8 +28,9 @@ if($status==false) {
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>データ更新</title>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <title>登録内容更新</title>
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="css/style.css" rel="stylesheet">
   <style>div{padding: 10px;font-size:16px;}</style>
 </head>
 <body>
@@ -52,10 +53,11 @@ if($status==false) {
      <label>投稿者名：<input type="text" name="uname" value="<?=$row["uname"]?>"></label><br>
      <label>依頼先住所：<input type="text" name="address1" value="<?=$row["address1"]?>"></label><br>
      <label>相談事項：<textArea name="text" rows="4" cols="40"><?=$row["text"]?></textArea></label><br>
+
      <!-- idを隠して送信 -->
      <input type="hidden" name="id" value="<?=$id?>">
      <!-- idを隠して送信 -->
-     <input type="submit" value="送信">
+     <input type="submit" value="依頼更新">
     </fieldset>
   </div>
 </form>
