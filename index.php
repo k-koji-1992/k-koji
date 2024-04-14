@@ -11,6 +11,7 @@ sschk();
   <meta charset="UTF-8">
   <title>すぐやる課支援業務アプリ</title>
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/infobox.css"rel="stylesheet" >
   <style>
     div {
       padding: 10px;

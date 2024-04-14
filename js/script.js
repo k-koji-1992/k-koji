@@ -2,55 +2,7 @@
 let map;
 let clickedLat;
 let clickedLon;
-
-// function updatePins() {
-//   // AJAXでデータベースからピンの情報を取得
-//   fetch("get_pins.php")
-//     .then((response) => response.json())
-//     .then((data) => {
-//       var gs_bm_table = data;
-
-//       // 既存のピンを削除
-//       map.removePins();
-
-//       // 地図上にピンを再配置
-//       gs_bm_table.forEach(function (pin) {
-//         var lat = pin.latitude;
-//         var lon = pin.longitude;
-//         var address = pin.address2;
-//         var text = pin.text;
-//         var uname = pin.uname;
-//         var image_path = pin.image_path;
-
-//         var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), "#0000ff");
-
-//         map.onPin(pinEntity, "click", function () {
-//           map.reverseGeocode(
-//             { latitude: parseFloat(lat), longitude: parseFloat(lon) },
-//             function (address) {
-//               var title = "依頼者：" + uname;
-//               var descript = "住所：" + address + "<br>相談事項：" + text;
-
-//               if (image_path) {
-//                 descript +=
-//                   '<br><img src="' + image_path + '" style="max-width: 100%;">';
-//               }
-
-//               var options = [
-//                 map.onInfobox(
-//                   parseFloat(lat),
-//                   parseFloat(lon),
-//                   title,
-//                   descript
-//                 ),
-//               ];
-//               map.infoboxLayers(options, true);
-//             }
-//           );
-//         });
-//       });
-//     });
-// }
+let currentInfobox = null; // 追加: 現在開いているインフォボックスを追跡する変数
 
 function GetMap() {
   //1. Init
@@ -122,19 +74,19 @@ function GetMap() {
     });
   });
 
-//   // 初回のピン更新
-//   updatePins();
+  //   // 初回のピン更新
+  //   updatePins();
 
-//   // 60秒ごとにピンを更新
-//   setInterval(updatePins, 60000);
+  //   // 60秒ごとにピンを更新
+  //   setInterval(updatePins, 60000);
 
   // AJAXでデータベースからピンの情報を取得
   fetch("get_pins.php")
     .then((response) => response.json())
     .then((data) => {
       var gs_bm_table = data;
-      console.log(data)
-     
+      console.log(data);
+
       // 地図読み込み時にデータベースからピンの情報を呼び出す。
       gs_bm_table.forEach(function (pin) {
         var lat = pin.latitude;
@@ -144,80 +96,124 @@ function GetMap() {
         var uname = pin.uname;
         var image_path = pin.image_path; // 追加: 画像パスを取得
         var category = pin.category; // 修正箇所: カテゴリーを取得
-      
-        var icon = "#0000ff";
-        // switch (category) {
-        //   case "ハチの巣駆除":
-        //     icon = "/kadai/html_kikuchi_15/img/hachi.png";
-        //     break;
-        //   case "道路補修・整備":
-        //     icon = "/img/douro.png";
-        //     break;
-        //   case "野生動物の死体撤去":
-        //     icon = "/img/shibou.png";
-        //     break;
-        //   case "住民トラブル":
-        //     icon = "/img/trouble.png";
-        //     break;
-        //   case "その他":
-        //     icon = "/img/other.png";
-        //     break;
+
+        var icon;
+        switch (category) {
+          case "ハチの巣駆除":
+            icon = "/kadai/html_kikuchi_15/img/hachi.png";
+            break;
+          case "道路補修・整備":
+            icon = "/kadai/html_kikuchi_15/img/douro.png";
+            break;
+          case "野生動物の死体撤去":
+            icon = "/kadai/html_kikuchi_15/img/shibou.png";
+            break;
+          case "住民トラブル":
+            icon = "/kadai/html_kikuchi_15/img/trouble.png";
+            break;
+          case "その他":
+            icon = "#0000ff";
+            break;
+          default:
+            icon = "#0000ff"; // デフォルトのピンの色を青色に変更
+        }
+
+        // var pinEntity = map.pin(parseFloat(lat), parseFloat(lon),icon);
+        // var pinEntity = map.pinIcon(parseFloat(lat), parseFloat(lon),icon, 0.3, 50, 50);
+
+        // 修正: アイコンの場合は透明なピンを設置し、クリックイベントを設定
+        // if (!icon.startsWith("#")) {
+        //   var transparentPin = map.pin(
+        //     parseFloat(lat),
+        //     parseFloat(lon),
+        //     "rgba(0, 0, 0, 0)"
+        //   );
+        //   map.onPin(transparentPin, "click", function () {
+        //     showInfobox(lat, lon, address, uname, text, image_path);
+        //   });
         // }
-        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon),icon);
-        
-        // var pinEntity = map.pinIcon(parseFloat(lat), parseFloat(lon),icon, 0.3, 0, 0);
 
-        map.onPin(pinEntity, "click", function () {
-          map.reverseGeocode(
-            { latitude: parseFloat(lat), longitude: parseFloat(lon) },
-            function (address) {
-              var title = "依頼者：" + uname ;
-              var descript = "住所：" + address + "<br style='font-size:18px'>相談事項：" + text;
-
-              // 追加: 画像が存在する場合、画像を表示
-              if (image_path) {
-                descript +=
-                  '<br><img src="' + image_path + '" style="max-width: 100%;">';
-              }
-
-              var options = [
-                map.onInfobox(
-                  parseFloat(lat),
-                  parseFloat(lon),
-                  title,
-                  descript
-                ),
-              ];
-              map.infoboxLayers(options,true);// 直前のインフォボックスを閉じる
-            }
+        // 修正: カテゴリーごとにピンのアイコンを設定
+        var pinEntity;
+        if (icon.startsWith("#")) {
+          pinEntity = map.pin(parseFloat(lat), parseFloat(lon), icon);
+          // 通常のピンの場合はonPinメソッドを使用]
+          map.onPin(pinEntity, "click", function () {
+            showInfobox(lat, lon, address, uname, text, image_path);
+          });
+        } else {
+          pinEntity = map.pinIcon(
+            parseFloat(lat),
+            parseFloat(lon),
+            icon,
+            0.3,
+            50,
+            50
           );
-        });
+          map.onPin(pinEntity, "click", function () {
+            showInfobox(lat, lon, address, uname, text, image_path);
+          });
+        }
+
+        // map.onPin(pinEntity, "click", function () {
+        //   map.reverseGeocode(
+        //     { latitude: parseFloat(lat), longitude: parseFloat(lon) },
+        //     function (address) {
+        //       var title = "依頼者：" + uname;
+        //       var descript =
+        //         "住所：" +
+        //         address +
+        //         "<br style='font-size:18px'>相談事項：" +
+        //         text;
+
+        //       // 追加: 画像が存在する場合、画像を表示
+        //       if (image_path) {
+        //         descript +=
+        //           '<br><img src="' + image_path + '" style="max-width: 100%;">';
+        //       }
+
+        //       var options = [
+        //         map.onInfobox(
+        //           parseFloat(lat),
+        //           parseFloat(lon),
+        //           title,
+        //           descript
+        //         ),
+        //       ];
+        //       // 修正: インフォボックスの切り替え
+        //       if (currentInfobox) {
+        //         currentInfobox.setOptions({ visible: false });
+        //       }
+        //       currentInfobox = map.infoboxLayers(options, true)[0];
+        //     }
+        //   );
+        // });
       });
+
+      function showInfobox(lat, lon, address, uname, text, image_path) {
+        var title = "依頼者：" + uname;
+        var descript =
+          "住所：" + address + "<br style='font-size:18px'>相談事項：" + text;
+
+        if (image_path) {
+          descript +=
+            '<br><img src="' + image_path + '" style="max-width: 100%;">';
+        }
+
+        var options = {
+          lat: parseFloat(lat),
+          lon: parseFloat(lon),
+          title: title,
+          description: descript,
+        };
+
+        if (currentInfobox) {
+          currentInfobox.setOptions({ visible: false });
+        }
+        var infoboxes = map.infoboxLayers([options], true);
+        if (Array.isArray(infoboxes) && infoboxes.length > 0) {
+          currentInfobox = infoboxes[0];
+        }
+      }
     });
 }
-
-// $("#send").on("click", function () {
-//     const uname = $("#uname").val() || "匿名希望";
-//     const msg = {
-//         uname: uname,
-//         text: $("#text").val(),
-//         address1: $("#address1").val(),
-//         address2: $("#address2").val(),
-//         latitude: clickedLat,
-//         longitude: clickedLon
-//     };
-
-//     $.post("insert.php", msg, function (response) {
-//         console.log(response);
-//         // 新しいピンを地図上に追加
-//         var pin = map.pin(clickedLat, clickedLon, "#0000ff");
-//         map.onPin(pin, "click", function () {
-//             map.reverseGeocode({ latitude: clickedLat, longitude: clickedLon }, function (address) {
-//                 var title = uname;
-//                 var descript = '<div style="width:300px;">住所：' + address + '</div><br>' + msg.text;
-//                 var options = [map.onInfobox(clickedLat, clickedLon, title, descript)];
-//                 map.infoboxLayers(options, true);
-//             });
-//         });
-//     });
-// });
