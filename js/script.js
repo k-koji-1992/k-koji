@@ -171,8 +171,8 @@ function GetMap() {
           map.reverseGeocode(
             { latitude: parseFloat(lat), longitude: parseFloat(lon) },
             function (address) {
-              var title = "依頼者：" + uname;
-              var descript = "住所：" + address + "<br>相談事項：" + text;
+              var title = "依頼者：" + uname ;
+              var descript = "住所：" + address + "<br style='font-size:18px'>相談事項：" + text;
 
               // 追加: 画像が存在する場合、画像を表示
               if (image_path) {

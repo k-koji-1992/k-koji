@@ -3,7 +3,7 @@
 $uname = $_POST['uname']; // 変更: 'title' から 'uname' に変更
 $title = $_POST['title']; // 変更: 'url' から 'text' に変更
 $text = $_POST['text']; // 変更: 'url' から 'text' に変更
-$category = $_POST['category'] ;
+$category = $_POST['category'];
 $address1 = $_POST['address1']; // 追加: 'address1' を追加
 $address2 = $_POST['address2']; // 追加: 'address2' を追加
 $latitude = $_POST['latitude']; // 追加: 'latitude' を追加
@@ -14,10 +14,6 @@ if (!empty($_FILES['image']['name'])) {
     $image_path = $upload_dir . uniqid() . '_' . $_FILES['image']['name'];
     move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
 }
-// $image_data = NULL;  // 画像データを保存するための変数
-// if (!empty($_FILES['image']['name'])) {
-//     $image_data = file_get_contents($_FILES['image']['tmp_name']);  // 画像データを読み込み
-// }
 include("funcs.php");
 $pdo = db_conn();
 
@@ -28,7 +24,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':uname', $uname, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':text', $text, PDO::PARAM_STR);
-$stmt->bindValue(':category', $category, PDO::PARAM_STR); 
+$stmt->bindValue(':category', $category, PDO::PARAM_STR);
 $stmt->bindValue(':address1', $address1, PDO::PARAM_STR); // 追加: 'address1' のバインド
 $stmt->bindValue(':address2', $address2, PDO::PARAM_STR); // 追加: 'address2' のバインド
 $stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR); // 追加: 'latitude' のバインド
@@ -43,4 +39,3 @@ if ($status == false) {
 } else {
     redirect("index.php");
 }
-?> 

@@ -14,11 +14,11 @@ if ($status == false) {
     $pins_data = array(); // ピンのデータを格納する配列を初期化
 
     $view .= "<table class='table'>";
-    $view .= "<tr><th>ID</th><th>名前</th><th>件名</th><th>依頼事項</th><th>依頼住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
+    $view .= "<tr><th>名前</th><th>件名</th><th>依頼事項</th><th>カテゴリ</th><th>依頼住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
 
     while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $view .= "<tr>";
-        $view .= "<td>" . $res["id"] . "</td>";
+        // $view .= "<td>" . $res["id"] . "</td>";
         $view .= "<td>" . $res['uname'] . "</td>";
         $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
         $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
@@ -50,7 +50,7 @@ if ($status == false) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>投稿管理画面</title>
+    <title>マイページ</title>
     <link href="css/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/BmapQuery1.js"></script>
@@ -85,7 +85,7 @@ if ($status == false) {
         let map;
         function GetMap() {
             map = new Bmap("#myMap");
-            map.startMap(35.6809591, 139.7673068, "load", 12); // 東京を中心とした地図を表示
+            map.startMap(35.6809591, 139.7673068, "load", 15); // 東京を中心とした地図を表示
             fetch("get_pins.php")
     .then((response) => response.json())
     .then((data) => {
