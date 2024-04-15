@@ -42,11 +42,31 @@ sschk();
   </header>
   <main>
     <div class="container">
-      <div class="search-container">
+      <!-- <div class="search-container">
         <input type="text" id="searchBox" placeholder="地名を入力">
         <button id="search">検索</button>
+      </div> -->
+      <div class="search-container">
+        <select id="regionSelect">
+          <option value="">地域を選択</option>
+          <option value="北海道・東北">北海道・東北</option>
+          <option value="関東">関東</option>
+          <option value="甲信越・北陸">甲信越・北陸</option>
+          <option value="東海">東海</option>
+          <option value="関西">関西</option>
+          <option value="中国">中国</option>
+          <option value="四国">四国</option>
+          <option value="九州・沖縄">九州・沖縄</option>
+        </select>
+        <select id="prefectureSelect">
+          <option value="">都道府県を選択</option>
+        </select>
+        <select id="citySelect">
+          <option value="">市区町村を選択</option>
+        </select>
+        <button id="search">検索</button>
+        <script src="js/city.js"></script>
       </div>
-
 
       <div class="sort-container">
         <select id="categorySort">
@@ -124,11 +144,35 @@ sschk();
   <script src="js/script.js"></script>
   <script>
     // 地名検索機能
+    // document.getElementById("search").onclick = function() {
+    //   const searchBox = document.getElementById("searchBox").value;
+    //   if (searchBox) {
+    //     map.getSearchBoundary(searchBox, "PopulatedPlace");
+    //   }
+    // };
+
     document.getElementById("search").onclick = function() {
-      const searchBox = document.getElementById("searchBox").value;
-      if (searchBox) {
-        map.getSearchBoundary(searchBox, "PopulatedPlace");
+      const region = document.getElementById("regionSelect").value;
+      const prefecture = document.getElementById("prefectureSelect").value;
+      const city = document.getElementById("citySelect").value;
+
+      // 地域、都道府県、市区町村のいずれかが選択されている場合のみ検索を実行
+      if (region || prefecture || city) {
+        const searchQuery = `${region} ${prefecture} ${city}`;
+        map.getSearchBoundary(searchQuery, "PopulatedPlace");
       }
+    };
+
+    // カテゴリでソート
+    document.getElementById("categorySort").onchange = function() {
+      const selectedCategory = this.value;
+      map.map.entities.clear();
+      gs_bm_table.forEach(function(pin) {
+        if (!selectedCategory || pin.category === selectedCategory) {
+          // ピンを表示する処理
+          // 省略
+        }
+      });
     };
   </script>
 </body>
