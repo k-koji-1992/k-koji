@@ -39,10 +39,24 @@ $stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);
 $status = $stmt->execute();
 
 //４．データ登録処理後
+// if ($status == false) {
+//   //*** function化を使う！*****************
+//   sql_error($stmt);
+// } else {
+//   //*** function化を使う！*****************
+//   redirect("login.php");
+// }
+//４．データ登録処理後
 if ($status == false) {
-  //*** function化を使う！*****************
   sql_error($stmt);
 } else {
-  //*** function化を使う！*****************
+  // 追加: セッションにユーザー情報を保存
+  $_SESSION['id'] = $pdo->lastInsertId();
+  $_SESSION['sei'] = $sei;
+  $_SESSION['mei'] = $mei;
+  $_SESSION['name'] = $name;
+  $_SESSION['lid'] = $lid;
+  $_SESSION['addr1'] = $addr1;
+  $_SESSION['addr2'] = $addr2;
   redirect("login.php");
 }

@@ -46,6 +46,18 @@ sschk();
         <input type="text" id="searchBox" placeholder="地名を入力">
         <button id="search">検索</button>
       </div>
+
+
+      <div class="sort-container">
+        <select id="categorySort">
+          <option value="">カテゴリでソート</option>
+          <option value="ハチの巣駆除">ハチの巣駆除</option>
+          <option value="道路補修・整備">道路補修・整備</option>
+          <option value="野生動物の死体撤去">野生動物の死体撤去</option>
+          <option value="住民トラブル">住民トラブル</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
       <div id="myMap"></div>
 
       <div class="legend">

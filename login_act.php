@@ -12,7 +12,6 @@ include("funcs.php");
 $pdo = db_conn();
 
 //2. データ登録SQL作成
-//* PasswordがHash化→条件はlidのみ！！
 $stmt = $pdo->prepare("SELECT*FROM gs_user_table WHERE lid = :lid AND lpw=:lpw");
 $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
 $stmt->bindValue(':lpw',$lpw, PDO::PARAM_STR);
@@ -37,6 +36,13 @@ if ($val['id'] != "" ) {
   $_SESSION["chk_ssid"]  = session_id();
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
   $_SESSION["name"]      = $val['name'];
+   // 追加: セッションにユーザーIDとアドレスを保存
+   $_SESSION["id"]        = $val['id'];
+   $_SESSION["lid"]       = $val['lid'];
+   $_SESSION["sei"]       = $val['sei'];
+   $_SESSION["mei"]       = $val['mei'];
+   $_SESSION["addr1"]     = $val['addr1'];
+   $_SESSION["addr2"]     = $val['addr2'];
 
   if ($_SESSION["kanri_flg"] == 1) {
     redirect("admin.php");
