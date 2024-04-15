@@ -100,16 +100,16 @@ function GetMap() {
         var icon;
         switch (category) {
           case "ハチの巣駆除":
-            icon = "/kadai/html_kikuchi_15/img/hachi.png";
+            icon = "img/hachi.png";
             break;
           case "道路補修・整備":
-            icon = "/kadai/html_kikuchi_15/img/douro.png";
+            icon = "img/douro.png";
             break;
           case "野生動物の死体撤去":
-            icon = "/kadai/html_kikuchi_15/img/shibou.png";
+            icon = "img/shibou.png";
             break;
           case "住民トラブル":
-            icon = "/kadai/html_kikuchi_15/img/trouble.png";
+            icon = "img/trouble.png";
             break;
           case "その他":
             icon = "#0000ff";

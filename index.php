@@ -51,7 +51,7 @@ sschk();
       <div class="legend">
         <p><span class="red-pin">●</span> 現在地</p>
         <p><span class="purple-pin">●</span> クリックした場所</p>
-        <p><img src="/kadai/html_kikuchi_15/img/hachi.png" alt="ハチ駆除" width="20"> ハチ駆除</p>
+        <p><img src="img/hachi.png" alt="ハチ駆除" width="20"> ハチ駆除</p>
       </div>
 
       <form method="post" action="insert.php" enctype="multipart/form-data">
