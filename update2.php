@@ -1,4 +1,6 @@
 <?php
+session_start(); // セッションを開始
+
 //1. POSTデータ取得
 $sei   = $_POST["sei"];
 $mei  = $_POST["mei"];
@@ -28,11 +30,21 @@ $stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 $status = $stmt->execute(); //実行
 
-
 //４．データ登録処理後
-if($status==false){
+if ($status == false) {
     sql_error($stmt);
-}else{
-    redirect("select.php");
+} else {
+    // セッションの値を更新
+    $_SESSION['sei'] = $sei;
+    $_SESSION['mei'] = $mei;
+    $_SESSION['zip'] = $zip;
+    $_SESSION['addr1'] = $addr1;
+    $_SESSION['addr2'] = $addr2;
+    $_SESSION['lid'] = $lid;
+
+    if ($_SESSION["kanri_flg"] == 1) {
+        redirect("admin.php");
+    } else {
+        redirect("select.php");
+    }
 }
-?>

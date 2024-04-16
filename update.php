@@ -62,11 +62,15 @@ $stmt->bindValue(':image_path',   $image_path,    PDO::PARAM_STR);  //Integer（
 $stmt->bindValue(':id', $id,  PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $status = $stmt->execute(); //実行
 
-
 //４．データ登録処理後
 if ($status == false) {
     sql_error($stmt);
 } else {
-    redirect("select.php");
+    if ($_SESSION["kanri_flg"] == 1) {
+        redirect("admin.php");
+    } else {
+        redirect("select.php");
+    }
 }
+
 ?>
