@@ -96,26 +96,27 @@ function GetMap() {
         var uname = pin.uname;
         var image_path = pin.image_path; // 追加: 画像パスを取得
         var category = pin.category; // 修正箇所: カテゴリーを取得
+        var completed_flag = pin.completed_flag;
 
         var icon;
         switch (category) {
           case "ハチの巣駆除":
-            icon = "img/hachi.png";
+            icon = completed_flag ? "img/hachi_completed.png" : "img/hachi.png";
             break;
           case "道路補修・整備":
-            icon = "img/douro.png";
+            icon = completed_flag ? "img/douro_completed.png" : "img/douro.png";
             break;
           case "野生動物の死体撤去":
-            icon = "img/shibou.png";
+            icon = completed_flag ? "img/shibou_completed.png" : "img/shibou.png";
             break;
           case "住民トラブル":
-            icon = "img/trouble.png";
+            icon = completed_flag ? "img/trouble_completed.png" : "img/trouble.png";
             break;
           case "その他":
-            icon = "#0000ff";
+            icon = completed_flag ? "#00ff00" : "#0000ff";
             break;
           default:
-            icon = "#0000ff"; // デフォルトのピンの色を青色に変更
+            icon = completed_flag ? "#00ff00" : "#0000ff";
         }
         // 修正: カテゴリーごとにピンのアイコンを設定
         var pinEntity;
@@ -137,13 +138,9 @@ function GetMap() {
           var transparentPin = map.pin(
             parseFloat(lat),
             parseFloat(lon),
-            "rgba(0, 0, 0, 0)"
+            "#0000ff"
           );
-          // transparentPin.setOptions({
-          //   visible: false,
-          //   enableHoverStyle: false,
-          //   enableClickedStyle: false,
-          // });
+        
           map.onPin(transparentPin, "click", function () {
             showInfobox(lat, lon, address, uname, text, image_path);
           });

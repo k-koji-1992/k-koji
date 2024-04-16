@@ -2,18 +2,6 @@
 session_start();
 include("funcs.php");
 sschk();
-
-// ログインユーザーの情報を取得
-// $pdo = db_conn();
-// $stmt = $pdo->prepare("SELECT * FROM gs_user_table WHERE id = :id");
-// $stmt->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
-// $status = $stmt->execute();
-
-// if ($status == false) {
-//     sql_error($stmt);
-// } else {
-//     $user = $stmt->fetch();
-// }
 ?>
 
 <!DOCTYPE html>
@@ -41,15 +29,11 @@ sschk();
       <div class="container navbar-container">
         <a class="navbar-brand" href="select.php">マイページ</a>
         <a class="navbar-brand" href="logout.php">ログアウト</a>
-
+        <a class="navbar-brand" href="admin.php">管理者専用</a>
     </nav>
   </header>
   <main>
     <div class="container">
-      <!-- <div class="search-container">
-        <input type="text" id="searchBox" placeholder="地名を入力">
-        <button id="search">検索</button>
-      </div> -->
       <div class="search-container">
         <select id="regionSelect">
           <option value="">地域を選択</option>
@@ -85,9 +69,13 @@ sschk();
       <div id="myMap"></div>
 
       <div class="legend">
-        <p><span class="red-pin">●</span> 現在地</p>
-        <p><span class="purple-pin">●</span> クリックした場所</p>
+        <p><span class="red-pin" style="color:red;"><strong>◎</strong></span> 現在地</p>
+        <p><span class="purple-pin" style="color:purple;"><strong>◎</strong></span> クリックした場所</p>
         <p><img src="img/hachi.png" alt="ハチ駆除" width="20"> ハチ駆除</p>
+        <p><img src="img/douro.png" alt="道路整備" width="20"> 道路補修・整備</p>
+        <p><img src="img/shibou.png" alt="動物" width="20">野生動物の死体撤去</p>
+        <p><img src="img/trouble.png" alt="トラブル" width="20"> 住民トラブル</p>
+        <p><span class="other" style="color:blue;"><strong>◎</strong></span>その他</p>
       </div>
 
       <form method="post" action="insert.php" enctype="multipart/form-data">
@@ -151,34 +139,12 @@ sschk();
   </main>
   <script src="js/script.js"></script>
   <script>
-    // 地名検索機能
-    // document.getElementById("search").onclick = function() {
-    //   const searchBox = document.getElementById("searchBox").value;
-    //   if (searchBox) {
-    //     map.getSearchBoundary(searchBox, "PopulatedPlace");
-    //   }
-    // };
-
-    document.getElementById("search").onclick = function() {
-      const region = document.getElementById("regionSelect").value;
-      const prefecture = document.getElementById("prefectureSelect").value;
-      const city = document.getElementById("citySelect").value;
-
-      // 地域、都道府県、市区町村のいずれかが選択されている場合のみ検索を実行
-      if (region || prefecture || city) {
-        const searchQuery = `${region} ${prefecture} ${city}`;
-        map.getSearchBoundary(searchQuery, "PopulatedPlace");
-      }
-    };
-
     // カテゴリでソート
     document.getElementById("categorySort").onchange = function() {
       const selectedCategory = this.value;
       map.map.entities.clear();
       gs_bm_table.forEach(function(pin) {
         if (!selectedCategory || pin.category === selectedCategory) {
-          // ピンを表示する処理
-          // 省略
         }
       });
     };

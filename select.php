@@ -23,14 +23,14 @@ if ($status == false) {
     $view .= "<tr>";
     // $view .= "<td>" . $res['uname'] . "</td>";
     // $view .= "<td>" . $res['uid'] . "</td>";
-    $view .= "<td>" . $res['title'] . "</td>"; 
+    $view .= "<td>" . $res['title'] . "</td>";
     $view .= "<td>" . $res['text'] . "</td>";
-    $view .= "<td>" . $res['category'] . "</td>"; 
+    $view .= "<td>" . $res['category'] . "</td>";
     // $view .= "<td>" . $res['address1'] . "</td>";
     $view .= "<td>" . $res['address2'] . "</td>";
     $view .= "<td>";
     if (!empty($res['image_path'])) {
-        $view .= '<img src="' . $res['image_path'] . '" style="max-width: 100px;">';
+      $view .= '<img src="' . $res['image_path'] . '" style="max-width: 100px;">';
     }
     $view .= "</td>";
     $view .= "<td>" . $res['indate'] . "</td>";
@@ -71,14 +71,8 @@ if ($status == false) {
     <nav class="navbar">
       <div class="container navbar-container">
         <a class="navbar-brand" href="index.php">依頼登録</a>
-        <?php
-        // 修正箇所: ログイン中は「ログアウト」を表示し、それ以外は「ログイン」を表示
-        if (isset($_SESSION['chk_ssid'])) {
-          echo '<a class="navbar-brand" href="logout.php">ログアウト</a>';
-        } else {
-          echo '<a class="navbar-brand" href="login.php">ログイン</a>';
-        }
-        ?>
+        <a class="navbar-brand" href="logout.php">ログアウト</a>;
+        <a class="navbar-brand" href="admin.php">管理者専用</a>
       </div>
     </nav>
   </header>
@@ -87,7 +81,7 @@ if ($status == false) {
     <div id="myMap" style="width: 100%; height: 500px;"></div>
     <div class="table-responsive">
 
-    <h2>投稿一覧</h2>
+      <h2>投稿一覧</h2>
       <?= $view ?>
     </div>
 
@@ -107,58 +101,54 @@ if ($status == false) {
 
   <script>
     let map;
+        function GetMap() {
+            map = new Bmap("#myMap");
+            map.startMap(35.6809591, 139.7673068, "load", 15); // 東京を中心とした地図を表示
+            fetch("get_pins.php")
+    .then((response) => response.json())
+    .then((data) => {
+      var gs_bm_table = data;
 
-    function GetMap() {
-      map = new Bmap("#myMap");
-      map.startMap(35.6809591, 139.7673068, "load", 15); // 東京を中心とした地図を表示
-      fetch("get_pins.php")
-        .then((response) => response.json())
-        .then((data) => {
-          var gs_bm_table = data;
+      // 地図読み込み時にデータベースからピンの情報を呼び出す。
+      gs_bm_table.forEach(function (pin) {
+        var lat = pin.latitude;
+        var lon = pin.longitude;
+        var address = pin.address2;
+        var text = pin.text;
+        var uname = pin.uname;
+        var image_path = pin.image_path; // 追加: 画像パスを取得
+        var category = pin.category; // 修正箇所: カテゴリーを取得
+        var pinIcon = "#0000ff";
+        var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), pinIcon);
 
-          // 地図読み込み時にデータベースからピンの情報を呼び出す。
-          gs_bm_table.forEach(function(pin) {
-            var lat = pin.latitude;
-            var lon = pin.longitude;
-            var address = pin.address2;
-            var text = pin.text;
-            var uname = pin.uname;
-            var image_path = pin.image_path; // 追加: 画像パスを取得
-            var category = pin.category; // 修正箇所: カテゴリーを取得
-            var pinIcon = "#0000ff";
-           
-            var pinEntity = map.pin(parseFloat(lat), parseFloat(lon), pinIcon);
+        map.onPin(pinEntity, "click", function () {
+          map.reverseGeocode(
+            { latitude: parseFloat(lat), longitude: parseFloat(lon) },
+            function (address) {
+              var title = "依頼者：" + uname;
+              var descript = "住所：" + address + "<br>相談事項：" + text;
 
-            map.onPin(pinEntity, "click", function() {
-              map.reverseGeocode({
-                  latitude: parseFloat(lat),
-                  longitude: parseFloat(lon)
-                },
-                function(address) {
-                  var title = "依頼者：" + uname;
-                  var descript = "住所：" + address + "<br>相談事項：" + text;
+              // 追加: 画像が存在する場合、画像を表示
+              if (image_path) {
+                descript +=
+                  '<br><img src="' + image_path + '" style="max-width: 100%;">';
+              }
 
-                  // 追加: 画像が存在する場合、画像を表示
-                  if (image_path) {
-                    descript +=
-                      '<br><img src="' + image_path + '" style="max-width: 100%;">';
-                  }
-
-                  var options = [
-                    map.onInfobox(
-                      parseFloat(lat),
-                      parseFloat(lon),
-                      title,
-                      descript
-                    ),
-                  ];
-                  map.infoboxLayers(options, true);
-                }
-              );
-            });
-          });
+              var options = [
+                map.onInfobox(
+                  parseFloat(lat),
+                  parseFloat(lon),
+                  title,
+                  descript
+                ),
+              ];
+              map.infoboxLayers(options, true);
+            }
+          );
         });
-    }
+      });
+    });
+        }
   </script>
 </body>
 
