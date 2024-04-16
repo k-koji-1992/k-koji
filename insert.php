@@ -1,14 +1,14 @@
 <?php
 // 1. POSTデータ取得
-$uname = $_POST['uname']; // 変更: 'title' から 'uname' に変更
+$uname = $_POST['uname']; 
 $uid = $_POST['uid'];
-$title = $_POST['title']; // 変更: 'url' から 'text' に変更
-$text = $_POST['text']; // 変更: 'url' から 'text' に変更
+$title = $_POST['title']; 
+$text = $_POST['text']; 
 $category = $_POST['category'];
-$address1 = $_POST['address1']; // 追加: 'address1' を追加
-$address2 = $_POST['address2']; // 追加: 'address2' を追加
-$latitude = $_POST['latitude']; // 追加: 'latitude' を追加
-$longitude = $_POST['longitude']; // 追加: 'longitude' を追加
+$address1 = $_POST['address1'];
+$address2 = $_POST['address2']; 
+$latitude = $_POST['latitude']; 
+$longitude = $_POST['longitude']; 
 $image_path = null;
 if (!empty($_FILES['image']['name'])) {
     $upload_dir = 'uploads/';
@@ -27,12 +27,11 @@ $stmt->bindValue(':uid', $uid, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':text', $text, PDO::PARAM_STR);
 $stmt->bindValue(':category', $category, PDO::PARAM_STR);
-$stmt->bindValue(':address1', $address1, PDO::PARAM_STR); // 追加: 'address1' のバインド
-$stmt->bindValue(':address2', $address2, PDO::PARAM_STR); // 追加: 'address2' のバインド
-$stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR); // 追加: 'latitude' のバインド
-$stmt->bindValue(':longitude', $longitude, PDO::PARAM_STR); // 追加: 'longitude' のバインド
-$stmt->bindValue(':image_path', $image_path, PDO::PARAM_STR); // 追加: 'image_path' のバインド
-// $stmt->bindParam(':image_data', $image_data, PDO::PARAM_LOB);
+$stmt->bindValue(':address1', $address1, PDO::PARAM_STR); 
+$stmt->bindValue(':address2', $address2, PDO::PARAM_STR); 
+$stmt->bindValue(':latitude', $latitude, PDO::PARAM_STR); 
+$stmt->bindValue(':longitude', $longitude, PDO::PARAM_STR); 
+$stmt->bindValue(':image_path', $image_path, PDO::PARAM_STR); 
 $status = $stmt->execute();
 
 // 4. データ登録処理後

@@ -14,7 +14,7 @@ $pdo = db_conn();
 //2. データ登録SQL作成
 $stmt = $pdo->prepare("SELECT*FROM gs_user_table WHERE lid = :lid AND lpw=:lpw");
 $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
-$stmt->bindValue(':lpw',$lpw, PDO::PARAM_STR);
+$stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);
 $status = $stmt->execute();
 
 //3. SQL実行時にエラーがある場合STOP
@@ -24,25 +24,21 @@ if ($status == false) {
 
 //4. 抽出データ数を取得
 $val = $stmt->fetch();         //1レコードだけ取得する方法
-//$count = $stmt->fetchColumn(); //SELECT COUNT(*)で使用可能()
 
 
 
 //5.該当１レコードがあればSESSIONに値を代入
 //入力したPasswordと暗号化されたPasswordを比較！[戻り値：true,false]
-// $pw = password_verify($lpw, $val["lpw"]);
-if ($val['id'] != "" ) {
+if ($val['id'] != "") {
   //Login成功時
   $_SESSION["chk_ssid"]  = session_id();
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
-  // $_SESSION["name"]      = $val['name'];
-   // 追加: セッションにユーザーIDとアドレスを保存
-   $_SESSION["id"]        = $val['id'];
-   $_SESSION["lid"]       = $val['lid'];
-   $_SESSION["sei"]       = $val['sei'];
-   $_SESSION["mei"]       = $val['mei'];
-   $_SESSION["addr1"]     = $val['addr1'];
-   $_SESSION["addr2"]     = $val['addr2'];
+  $_SESSION["id"]        = $val['id'];
+  $_SESSION["lid"]       = $val['lid'];
+  $_SESSION["sei"]       = $val['sei'];
+  $_SESSION["mei"]       = $val['mei'];
+  $_SESSION["addr1"]     = $val['addr1'];
+  $_SESSION["addr2"]     = $val['addr2'];
 
   if ($_SESSION["kanri_flg"] == 1) {
     redirect("admin.php");
@@ -52,7 +48,7 @@ if ($val['id'] != "" ) {
   }
 } else {
   //Login失敗時(Logoutを経由：リダイレクト)
-  redirect("login.php?login_error=1"); 
+  redirect("login.php?login_error=1");
 };
 
 

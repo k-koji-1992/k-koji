@@ -56,7 +56,7 @@ sschk();
         <script src="js/city.js"></script>
       </div>
 
-      <div class="sort-container">
+      <!-- <div class="sort-container">
         <select id="categorySort">
           <option value="">カテゴリでソート</option>
           <option value="ハチの巣駆除">ハチの巣駆除</option>
@@ -65,7 +65,8 @@ sschk();
           <option value="住民トラブル">住民トラブル</option>
           <option value="その他">その他</option>
         </select>
-      </div>
+        <button id="sortButton">ソート</button>
+      </div> -->
       <div id="myMap"></div>
 
       <div class="legend">
@@ -138,17 +139,6 @@ sschk();
     </div>
   </main>
   <script src="js/script.js"></script>
-  <script>
-    // カテゴリでソート
-    document.getElementById("categorySort").onchange = function() {
-      const selectedCategory = this.value;
-      map.map.entities.clear();
-      gs_bm_table.forEach(function(pin) {
-        if (!selectedCategory || pin.category === selectedCategory) {
-        }
-      });
-    };
-  </script>
 </body>
 
 </html>

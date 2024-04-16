@@ -4,8 +4,6 @@ include("funcs.php");
 sschk();
 $pdo = db_conn();
 
-// $stmt = $pdo->prepare("SELECT * FROM gs_bm_table");
-// $status = $stmt->execute();
 $stmt = $pdo->prepare("SELECT * FROM gs_bm_table WHERE uid = :uid");
 $stmt->bindValue(':uid', $_SESSION['lid'], PDO::PARAM_STR);
 $status = $stmt->execute();

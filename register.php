@@ -68,9 +68,6 @@
         <label>住所（町名以降）：
           <input type="text" name="addr2"required>
         </label><br>
-        <!-- <label>ユーザー名：
-          <input type="text" name="name" required>
-        </label><br> -->
         <label>ユーザーID　※変更不可：
           <input type="text" name="lid" required>
         </label><br>
