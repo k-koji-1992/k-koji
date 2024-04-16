@@ -28,7 +28,9 @@ if ($status == false) {
             <legend>ユーザー情報更新</legend>
             <label>姓：<input type="text" name="sei" value="' . $row["sei"] . '"></label><br>
             <label>名：<input type="text" name="mei" value="' . $row["mei"] . '"></label><br>
-            <label>ユーザー名：<input type="text" name="name" value="' . $row["name"] . '"></label><br>
+            <label>郵便番号：<input type="text" name="zip" value="' . $row["zip"] . '"></label><br>
+            <label>住所：<input type="text" name="addr1" value="' . $row["addr1"] . '"></label><br>
+            <label>住所(町名以降)：<input type="text" name="addr2" value="' . $row["addr2"] . '"></label><br>
             <label>ユーザーID：<input type="text" name="lid" value="' . $row["lid"] . '"></label><br>
             <label>パスワード：<input type="password" name="lpw" value="' . $row["lpw"] . '"></label><br>
             <input type="hidden" name="id" value="' . $id . '">

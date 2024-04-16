@@ -4,7 +4,10 @@ include("funcs.php");
 sschk();
 $pdo = db_conn();
 
-$stmt = $pdo->prepare("SELECT * FROM gs_bm_table");
+// $stmt = $pdo->prepare("SELECT * FROM gs_bm_table");
+// $status = $stmt->execute();
+$stmt = $pdo->prepare("SELECT * FROM gs_bm_table WHERE uid = :uid");
+$stmt->bindValue(':uid', $_SESSION['lid'], PDO::PARAM_STR);
 $status = $stmt->execute();
 
 $view = "";
@@ -19,7 +22,9 @@ if ($status == false) {
   while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $view .= "<tr>";
     // $view .= "<td>" . $res["id"] . "</td>";
+    
     $view .= "<td>" . $res['uname'] . "</td>";
+    $view .= "<td>" . $res['uid'] . "</td>";
     $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
     $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
     $view .= "<td>" . $res['category'] . "</td>"; // 修正箇所: カテゴリーを表示

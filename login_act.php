@@ -35,7 +35,7 @@ if ($val['id'] != "" ) {
   //Login成功時
   $_SESSION["chk_ssid"]  = session_id();
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
-  $_SESSION["name"]      = $val['name'];
+  // $_SESSION["name"]      = $val['name'];
    // 追加: セッションにユーザーIDとアドレスを保存
    $_SESSION["id"]        = $val['id'];
    $_SESSION["lid"]       = $val['lid'];

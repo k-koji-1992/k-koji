@@ -5,7 +5,7 @@ $mei = $_POST['mei'];
 $zip = $_POST['zip'];
 $addr1 = $_POST['addr1'];
 $addr2 = $_POST['addr2'];
-$name = $_POST['name'];
+// $name = $_POST['name'];
 $lid = $_POST['lid'];
 $lpw = $_POST['lpw'];
 $lpw_confirm = $_POST['lpw_confirm'];
@@ -23,7 +23,7 @@ $pdo = db_conn();
 
 //３．データ登録SQL作成
 // $sql = "INSERT INTO `gs_user_table`(name, lid, lpw) VALUES (:name,:lid,:lpw)";
-$sql = "INSERT INTO `gs_user_table`(sei, mei, zip, addr1, addr2, name, lid, lpw) VALUES (:sei, :mei, :zip, :addr1, :addr2, :name, :lid, :lpw)";
+$sql = "INSERT INTO `gs_user_table`(sei, mei, zip, addr1, addr2, lid, lpw) VALUES (:sei, :mei, :zip, :addr1, :addr2, :lid, :lpw)";
 $stmt = $pdo->prepare($sql); // statement
 // $stmt->bindValue(':name', $name, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 // $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -33,7 +33,7 @@ $stmt->bindValue(':mei', $mei, PDO::PARAM_STR);
 $stmt->bindValue(':zip', $zip, PDO::PARAM_STR);
 $stmt->bindValue(':addr1', $addr1, PDO::PARAM_STR);
 $stmt->bindValue(':addr2', $addr2, PDO::PARAM_STR);
-$stmt->bindValue(':name', $name, PDO::PARAM_STR);
+// $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
 $stmt->bindValue(':lpw', $lpw, PDO::PARAM_STR);
 $status = $stmt->execute();
@@ -54,7 +54,7 @@ if ($status == false) {
   $_SESSION['id'] = $pdo->lastInsertId();
   $_SESSION['sei'] = $sei;
   $_SESSION['mei'] = $mei;
-  $_SESSION['name'] = $name;
+  // $_SESSION['name'] = $name;
   $_SESSION['lid'] = $lid;
   $_SESSION['addr1'] = $addr1;
   $_SESSION['addr2'] = $addr2;

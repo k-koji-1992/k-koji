@@ -58,10 +58,10 @@ if ($status == false) {
     <div class="jumbotron">
       <fieldset>
         <legend>投稿更新</legend>
-        <label>投稿者名：<input type="text" name="uname" value="<?= $row["uname"] ?>"></label><br>
+        <label>投稿者名：<input type="text" name="uname" value="<?= $row["uname"] ?>" readonly></label><br>
+        <label>ユーザーID：<input type="text" name="uid" value="<?= $row["uid"] ?>" readonly></label><br>
         <label>件名：<input type="text" name="title" value="<?= $row["title"] ?>"></label><br>
         <label>相談カテゴリ：<br>
-
           <input type="radio" id="hachi" name="category" value="<?= $row["category"] ?>">
           <label for="hachi">ハチの巣駆除</label><br>
           <input type="radio" id="douro" name="category" value="<?= $row["category"] ?>">

@@ -2,6 +2,18 @@
 session_start();
 include("funcs.php");
 sschk();
+
+// ログインユーザーの情報を取得
+// $pdo = db_conn();
+// $stmt = $pdo->prepare("SELECT * FROM gs_user_table WHERE id = :id");
+// $stmt->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+// $status = $stmt->execute();
+
+// if ($status == false) {
+//     sql_error($stmt);
+// } else {
+//     $user = $stmt->fetch();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +102,11 @@ sschk();
         <legend>依頼登録欄</legend>
         <div class="form-group">
           <label for="uname">名前</label>
-          <input type="text" id="uname" name="uname" required>
+          <input type="text" id="uname" name="uname" value="<?= isset($_SESSION['sei'], $_SESSION['mei']) ? $_SESSION['sei'] . ' ' . $_SESSION['mei'] : '' ?>" readonly required>
+        </div>
+        <div class="form-group">
+          <label for="uid">ユーザーID</label>
+          <input type="text" id="uid" name="uid" value="<?= isset($_SESSION['lid']) ? $_SESSION['lid'] : '' ?>" readonly required>
         </div>
         <div class="form-group">
           <label for="title">題名</label>
