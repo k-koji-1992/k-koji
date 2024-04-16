@@ -10,6 +10,17 @@ if ($_SESSION["kanri_flg"] != 1) {
 
 $pdo = db_conn();      //DB接続関数
 
+// 案件完了フラグの更新処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_id']) && isset($_POST['completed_flag'])) {
+  $post_id = $_POST['post_id'];
+  $completed_flag = $_POST['completed_flag'];
+
+  $stmt = $pdo->prepare("UPDATE gs_bm_table SET completed_flag = :completed_flag WHERE id = :id");
+  $stmt->bindValue(':completed_flag', $completed_flag, PDO::PARAM_INT);
+  $stmt->bindValue(':id', $post_id, PDO::PARAM_INT);
+  $stmt->execute();
+}
+
 //２．データ登録SQL作成
 //ユーザー一覧取得
 $stmt_user   = $pdo->prepare("SELECT * FROM gs_user_table WHERE kanri_flg != 1"); //SQLをセット
@@ -51,7 +62,7 @@ if ($status_user == false || $status_post == false) {
   // 投稿一覧表示
   $view_post .= "<h2>投稿一覧</h2>";
   $view_post .= "<table class='table'>";
-  $view_post .= "<tr><th>投稿ID</th><th>投稿者名</th><th>ユーザーID</th><th>件名</th><th>相談事項</th><th>カテゴリ</th><th>現住所</th><th>依頼先住所</th><th>投稿画像</th><th>更新</th><th>削除</th></tr>";
+  $view_post .= "<tr><th>投稿ID</th><th>投稿者名</th><th>ユーザーID</th><th>件名</th><th>相談事項</th><th>カテゴリ</th><th>現住所</th><th>依頼先住所</th><th>投稿画像</th><th>更新</th><th>削除</th><th>ステータス</th></tr>";
   while ($res = $stmt_post->fetch(PDO::FETCH_ASSOC)) {
     $view_post .= "<tr>";
     $view_post .= "<td>" . $res["id"] . "</td>";
@@ -72,6 +83,13 @@ if ($status_user == false || $status_post == false) {
     $view_post .= "</td>";
     $view_post .= "<td>";
     $view_post .= '<a href="delete.php?id=' . h($res["id"]) . '" class="btn btn-danger" onclick="return confirm(\'本当に削除しますか？\');">削除</a>';
+    $view_post .= "</td>";
+    $view_post .= "<td>";
+    $view_post .= '<form method="post" style="display: inline;">';
+    $view_post .= '<input type="hidden" name="post_id" value="' . $res["id"] . '">';
+    $view_post .= '<input type="hidden" name="completed_flag" value="' . ($res["completed_flag"] ? '0' : '1') . '">';
+    $view_post .= '<button type="submit" class="btn ' . ($res["completed_flag"] ? 'btn-success' : 'btn-secondary') . '">' . ($res["completed_flag"] ? '完了' : '未完了') . '</button>';
+    $view_post .= '</form>';
     $view_post .= "</td>";
     $view_post .= "</tr>";
   }
@@ -106,8 +124,7 @@ if ($status_user == false || $status_post == false) {
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="index.php">ブックマーク登録</a>
-          <a class="navbar-brand" href="select.php">ブックマーク一覧</a>
+          <a class="navbar-brand" href="index.php">トップページ</a>
           <a class="navbar-brand" href="logout.php">ログアウト</a>
         </div>
       </div>
