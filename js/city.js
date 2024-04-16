@@ -1,4 +1,4 @@
-// city.js
+
 document.getElementById("regionSelect").addEventListener("change", function () {
   const regionMap = {
     "北海道・東北": [

@@ -139,6 +139,21 @@ sschk();
     </div>
   </main>
   <script src="js/script.js"></script>
+  <script>
+document.getElementById("search").onclick = function() {
+      const region = document.getElementById("regionSelect").value;
+      const prefecture = document.getElementById("prefectureSelect").value;
+      const city = document.getElementById("citySelect").value;
+
+      // 地域、都道府県、市区町村のいずれかが選択されている場合のみ検索を実行
+      if (region || prefecture || city) {
+        const searchQuery = `${region} ${prefecture} ${city}`;
+        map.getSearchBoundary(searchQuery, "PopulatedPlace");
+      }
+    };
+
+  </script>
+
 </body>
 
 </html>
