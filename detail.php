@@ -54,7 +54,7 @@ if ($status == false) {
   <!-- Head[End] -->
 
   <!-- Main[Start] -->
-  <form method="POST" action="update.php">
+  <form method="POST" action="update.php" enctype="multipart/form-data">
     <div class="jumbotron">
       <fieldset>
         <legend>投稿更新</legend>
@@ -62,24 +62,25 @@ if ($status == false) {
         <label>ユーザーID：<input type="text" name="uid" value="<?= $row["uid"] ?>" readonly></label><br>
         <label>件名：<input type="text" name="title" value="<?= $row["title"] ?>"></label><br>
         <label>相談カテゴリ：<br>
-          <input type="radio" id="hachi" name="category" value="<?= $row["category"] ?>">
+          <input type="radio" id="hachi" name="category" value="ハチの巣駆除" <?php if ($row["category"] == "ハチの巣駆除") echo "checked"; ?>>
           <label for="hachi">ハチの巣駆除</label><br>
-          <input type="radio" id="douro" name="category" value="<?= $row["category"] ?>">
+          <input type="radio" id="douro" name="category" value="道路補修・整備" <?php if ($row["category"] == "道路補修・整備") echo "checked"; ?>>
           <label for="douro">道路補修・整備</label><br>
-          <input type="radio" id="shibou" name="category" value="<?= $row["category"] ?>">
+          <input type="radio" id="shibou" name="category" value="野生動物の死体撤去" <?php if ($row["category"] == "野生動物の死体撤去") echo "checked"; ?>>
           <label for="shibou">野生動物の死体撤去</label><br>
-          <input type="radio" id="trouble" name="category" value="<?= $row["category"] ?>">
+          <input type="radio" id="trouble" name="category" value="住民トラブル" <?php if ($row["category"] == "住民トラブル") echo "checked"; ?>>
           <label for="trouble">住民トラブル</label><br>
-          <input type="radio" id="other" name="category" value="<?= $row["category"] ?>">
+          <input type="radio" id="other" name="category" value="その他" <?php if ($row["category"] == "その他") echo "checked"; ?>>
           <label for="other">その他
           </label><br>
         </label><br>
         <label>現住所：<input type="text" name="address1" value="<?= $row["address1"] ?>"></label><br>
         <label>依頼先住所：<input type="text" name="address2" value="<?= $row["address2"] ?>"></label><br>
         <label>相談事項：<textArea name="text" rows="4" cols="40"><?= $row["text"] ?></textArea></label><br>
-        <label for="image">画像</label>
-        <input type="file" id="image" name="image">
-
+        <label for="image">画像<input type="file" id="image" name="image"></label><br>
+        <?php if (!empty($row["image_path"])) : ?>
+          <div>現在の画像：<img src="<?= $row["image_path"] ?>" alt="現在の画像" style="max-width: 200px;"></div>
+        <?php endif; ?>
         <!-- idを隠して送信 -->
         <input type="hidden" name="id" value="<?= $id ?>">
         <!-- idを隠して送信 -->

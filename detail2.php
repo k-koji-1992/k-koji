@@ -31,7 +31,7 @@ if ($status == false) {
             <label>郵便番号：<input type="text" name="zip" value="' . $row["zip"] . '"></label><br>
             <label>住所：<input type="text" name="addr1" value="' . $row["addr1"] . '"></label><br>
             <label>住所(町名以降)：<input type="text" name="addr2" value="' . $row["addr2"] . '"></label><br>
-            <label>ユーザーID：<input type="text" name="lid" value="' . $row["lid"] . '"></label><br>
+            <label>ユーザーID ※変更不可：<input type="text" name="lid" value="' . $row["lid"] . '" readonly></label><br>
             <label>パスワード：<input type="password" name="lpw" value="' . $row["lpw"] . '"></label><br>
             <input type="hidden" name="id" value="' . $id . '">
             <input type="submit" value="更新">

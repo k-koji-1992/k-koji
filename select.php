@@ -17,19 +17,22 @@ if ($status == false) {
   $pins_data = array(); // ピンのデータを格納する配列を初期化
 
   $view .= "<table class='table'>";
-  $view .= "<tr><th>名前</th><th>件名</th><th>依頼事項</th><th>カテゴリ</th><th>依頼住所</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
+  $view .= "<th>件名</th><th>依頼事項</th><th>カテゴリ</th><th>依頼住所</th><th>投稿画像</th><th>登録日時</th><th>更新</th><th>削除</th></tr>";
 
   while ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $view .= "<tr>";
-    // $view .= "<td>" . $res["id"] . "</td>";
-    
-    $view .= "<td>" . $res['uname'] . "</td>";
-    $view .= "<td>" . $res['uid'] . "</td>";
-    $view .= "<td>" . $res['title'] . "</td>"; // titleカラムを削除
-    $view .= "<td>" . $res['text'] . "</td>"; // titleカラムを削除
-    $view .= "<td>" . $res['category'] . "</td>"; // 修正箇所: カテゴリーを表示
-    $view .= "<td>" . $res['address1'] . "</td>";
+    // $view .= "<td>" . $res['uname'] . "</td>";
+    // $view .= "<td>" . $res['uid'] . "</td>";
+    $view .= "<td>" . $res['title'] . "</td>"; 
+    $view .= "<td>" . $res['text'] . "</td>";
+    $view .= "<td>" . $res['category'] . "</td>"; 
+    // $view .= "<td>" . $res['address1'] . "</td>";
     $view .= "<td>" . $res['address2'] . "</td>";
+    $view .= "<td>";
+    if (!empty($res['image_path'])) {
+        $view .= '<img src="' . $res['image_path'] . '" style="max-width: 100px;">';
+    }
+    $view .= "</td>";
     $view .= "<td>" . $res['indate'] . "</td>";
     $view .= "<td><a href='detail.php?id=" . h($res["id"]) . "' class='btn btn-primary'>更新</a></td>";
     $view .= "<td><a href='delete.php?id=" . h($res["id"]) . "' class='btn btn-danger' onclick=\"return confirm('本当に削除しますか？');\">削除</a></td>";
@@ -83,6 +86,8 @@ if ($status == false) {
   <div class="container">
     <div id="myMap" style="width: 100%; height: 500px;"></div>
     <div class="table-responsive">
+
+    <h2>投稿一覧</h2>
       <?= $view ?>
     </div>
 

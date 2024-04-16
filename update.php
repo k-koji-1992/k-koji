@@ -1,28 +1,58 @@
 <?php
+
+include("funcs.php");  //funcs.phpを読み込む（関数群）
+$pdo = db_conn();
+
 //1. POSTデータ取得
-$uname = $_POST['uname']; // 変更: 'title' から 'uname' に変更
-$title = $_POST['title']; // 変更: 'url' から 'text' に変更
-$text = $_POST['text']; // 変更: 'url' から 'text' に変更
+$uname = $_POST['uname'];
+$uid = $_POST['uid'];
+$title = $_POST['title'];
+$text = $_POST['text'];
 $category = $_POST['category'];
-$address1 = $_POST['address1']; // 追加: 'address1' を追加
-$address2 = $_POST['address2']; // 追加: 'address2' を追加
-$image_path = null;
+$address1 = $_POST['address1'];
+$address2 = $_POST['address2'];
+$id = $_POST["id"];
+
+// 画像更新の有無を判定
+// ①最初の投稿で画像が投稿している場合で、新しい画像を登録して更新する場合
 if (!empty($_FILES['image']['name'])) {
     $upload_dir = 'uploads/';
     $image_path = $upload_dir . uniqid() . '_' . $_FILES['image']['name'];
     move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
 }
-$id    = $_POST["id"];   //idを取得
+// ②最初の投稿で画像が投稿している場合で、新しい画像は登録しないで更新する場合
+// ③最初の投稿で画像が投稿していない場合で、画像を登録して更新する場合
+else {
+    $stmt = $pdo->prepare("SELECT image_path FROM gs_bm_table WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!empty($row['image_path'])) {
+        // ②最初の投稿で画像が投稿している場合で、新しい画像は登録しないで更新する場合
+        $image_path = $row['image_path'];
+    } else {
+        // ③最初の投稿で画像が投稿していない場合で、画像を登録して更新する場合
+        if (!empty($_FILES['image']['name'])) {
+            $upload_dir = 'uploads/';
+            $image_path = $upload_dir . uniqid() . '_' . $_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
+        }
+    }
+}
+
+
 
 //2. DB接続します
-include("funcs.php");  //funcs.phpを読み込む（関数群）
-$pdo = db_conn();      //DB接続関数
+// include("funcs.php");  //funcs.phpを読み込む（関数群）
+// $pdo = db_conn();      //DB接続関数
 
 
 //３．データ登録SQL作成
-$sql = "UPDATE gs_bm_table SET uname=:uname, title=:title, text=:text, category=:category, address1=:address1, address2=:address2, image_path=:image_path WHERE id=:id";
+$sql = "UPDATE gs_bm_table SET uname=:uname, uid=:uid, title=:title, text=:text, category=:category, address1=:address1, address2=:address2, image_path=:image_path WHERE id=:id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':uname',  $uname,   PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':uid',  $uid,   PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':title',  $title,   PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':text', $text,  PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue(':category', $category,  PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -39,3 +69,4 @@ if ($status == false) {
 } else {
     redirect("select.php");
 }
+?>

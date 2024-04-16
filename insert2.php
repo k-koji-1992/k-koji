@@ -20,6 +20,17 @@ if ($lpw !== $lpw_confirm) {
 include("funcs.php");
 $pdo = db_conn();
 
+// ユーザーIDが既に存在するかチェック
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM gs_user_table WHERE lid = :lid");
+$stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+$stmt->execute();
+$count = $stmt->fetchColumn();
+
+if ($count > 0) {
+    // ユーザーIDが既に存在する場合の処理
+    echo "そのユーザーIDは既に使用されています。別のユーザーIDを入力してください。";
+    exit;
+}
 
 //３．データ登録SQL作成
 // $sql = "INSERT INTO `gs_user_table`(name, lid, lpw) VALUES (:name,:lid,:lpw)";

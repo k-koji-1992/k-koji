@@ -71,7 +71,7 @@
         <!-- <label>ユーザー名：
           <input type="text" name="name" required>
         </label><br> -->
-        <label>ユーザーID：
+        <label>ユーザーID　※変更不可：
           <input type="text" name="lid" required>
         </label><br>
         <label>パスワード：
